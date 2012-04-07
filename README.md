@@ -67,7 +67,7 @@ Which should download and unzip the ASGS Volume 1-5 files.
 
 If this step has been broken due to a change on the abs.gov.au web server,
 because the source datasets are CC-BY 2.5 licensed, I host a copy of the results
-after the `01-download-asgs.sh` step at http://tianjara.net/data/abs2pgsql/01-ASGS-ZIP/
+after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
 
 Next we create the database schema using,
 
