@@ -1,0 +1,31 @@
+# To the extent possible under law, the person who associated CC0
+# with this work has waived all copyright and related or neighboring
+# rights to this work.
+# http://creativecommons.org/publicdomain/zero/1.0/
+
+# This schema is partly derived from the ASGS structure.
+# http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+%28ASGS%29
+
+# Lines must be of the format:
+# ABS_VOL_NUM SHAPE_FILE.SHAPE_FILE_ATTRIBUTE PSQL_TABLE.PSQL_ATTRIBUTE PSQL_ATTRIBUTE_DATATYPE
+
+1 GCCSA_2011_AUST.GCC_CODE11 gccsa.code char(5)
+1 MB_2011_*.MB_CODE11 mb.code bigint
+1 SA1_2011_AUST.SA1_MAIN11 sa1.code bigint
+1 SA2_2011_AUST.SA2_MAIN11 sa2.code integer
+1 SA3_2011_AUST.SA3_CODE11 sa3.code integer
+1 SA4_2011_AUST.SA4_CODE11 sa4.code smallint
+1 STE_2011_AUST.STE_CODE11 state.code smallint
+
+2 IARE_2011_AUST.IA_CODE11 iare.code integer
+2 ILOC_2011_AUST.IL_CODE11 iloc.code integer
+2 IREG_2011_AUST.IR_CODE11 ireg.code smallint
+
+3 ADD_2011_AUST.ADD_CODE add.code char(3)
+3 CED_2011_AUST.CED_CODE ced.code smallint
+3 LGA_2011_AUST.LGA_CODE11 lga.code integer
+3 NRMR_2011_AUST.NRMR_CODE nrmr.code smallint
+3 POA_2011_AUST.POA_CODE poa.code smallint
+3 SED_2011_AUST.SED_CODE sed.code integer
+3 SSC_2011_AUST.SSC_CODE ssc.code integer
+3 TR_2011_AUST.TR_CODE11 tr.code char(6)
