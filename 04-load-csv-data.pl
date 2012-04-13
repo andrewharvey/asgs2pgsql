@@ -12,6 +12,7 @@ use Data::Dumper;
 
 sub cut($$);
 sub prepare_n($);
+sub vacuum_analyze($);
 
 my $schema = "abs_2011.";
 
@@ -66,6 +67,7 @@ while (<STDIN>) {
 
 # set up database connection
 my $dbh = DBI->connect("DBI:Pg:dbname=abs;host=localhost", 'abs', '' , {'RaiseError' => 1, AutoCommit => 0});
+my $sth;
 
 # truncate all tables prior to inserting values
 
@@ -115,7 +117,7 @@ for my $src_table (@ordered_tables) {
   my %inserts;
 
   # prepare the insert statement
-  my $sth = $dbh->prepare("INSERT INTO $schema$dst_table(" . join( ',', @dst_columns) . ") VALUES (" . prepare_n(scalar @dst_columns) . ");");
+  $sth = $dbh->prepare("INSERT INTO $schema$dst_table(" . join( ',', @dst_columns) . ") VALUES (" . prepare_n(scalar @dst_columns) . ");");
 
   # go through each line in the source csv file and create the INSERT statement
   while (my $row = $csv->getline($src_data)) {
@@ -133,10 +135,7 @@ for my $src_table (@ordered_tables) {
 
   $dbh->commit or die $!;
 
-  # VACUUM ANALYZE the table (cannot be done inside a transaction)
-  $dbh->{AutoCommit} = 1;
-  $sth = $dbh->do("VACUUM ANALYZE $schema$dst_table;");
-  $dbh->{AutoCommit} = 0;
+  vacuum_analyze("$schema$dst_table");
 
   close $src_data or warn $!;
 }
@@ -173,7 +172,7 @@ for my $link (@links) {
     }
 
     # prepare the insert statement
-    my $sth = $dbh->prepare("UPDATE $schema$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
+    $sth = $dbh->prepare("UPDATE $schema$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
 
     # go through each line in the source csv file and execute the UPDATE statement
     while (my $row = $csv->getline_hr($src_data)) {
@@ -182,10 +181,7 @@ for my $link (@links) {
 
     $dbh->commit or die $!;
 
-    # VACUUM ANALYZE the table (cannot be done inside a transaction)
-    $dbh->{AutoCommit} = 1;
-    $sth = $dbh->do("VACUUM ANALYZE $schema$db_sa1_table;");
-    $dbh->{AutoCommit} = 0;
+    vacuum_analyze("$schema$db_sa1_table");
 
     close $src_data or warn $!;
   }else{
@@ -218,4 +214,14 @@ sub prepare_n($) {
 
   $st = $st . '?';
   return $st
+}
+
+sub vacuum_analyze($) {
+  my ($schema_dot_table) = @_;
+
+  # VACUUM ANALYZE the table (cannot be done inside a transaction)
+  print "   VACUUM ANALYZE...\n";
+  $dbh->{AutoCommit} = 1;
+  $sth = $dbh->do("VACUUM ANALYZE $schema_dot_table;");
+  $dbh->{AutoCommit} = 0;
 }
