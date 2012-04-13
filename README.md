@@ -78,7 +78,6 @@ Next we load the flat data from the CSV files into PostgreSQL with,
     ./04-load-csv-data.pl < csv2psql.map
 
 The filename/table name and attribute mappings are defined in `csv2pgsql.map`.
-This step still needs some extra touches to load the I* references.
 
 Next we load the geometries into these PostgreSQL tables from the SHAPE files
 using,
