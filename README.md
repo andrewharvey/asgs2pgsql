@@ -89,3 +89,10 @@ Again the schema mapping is controlled by the `shp2pgsql.map` file.
 Please note that these scripts are still a work in progress and should be
 considered EXPERIMENTAL. Use at your own risk.
 
+Producing PG Dump files
+=======
+Once everything has been loaded into PostgreSQL using these scripts you can
+create a PostgreSQL dump file using,
+
+    $ pg_dump --format plain --verbose --schema "abs_2011" "abs" | gzip > abs_2011-abs.sql.gz
+
