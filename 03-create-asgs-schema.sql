@@ -144,7 +144,6 @@ CREATE TABLE abs_2011.lga
 CREATE TABLE abs_2011.sa1
 (
   "code" bigint PRIMARY KEY,
-  "name" text,
   "sa2" integer REFERENCES abs_2011.sa2(code),
   "sa3" integer REFERENCES abs_2011.sa3(code),
   "sa4" smallint REFERENCES abs_2011.sa4(code),
