@@ -9,7 +9,7 @@ use strict;
 use DBI;
 use Data::Dumper;
 
-my $schema = "abs_2011";
+my $schema = "asgs_2011";
 
 my $asgs_unzip_dir = "02-ASGS-UNZIP";
 

@@ -94,5 +94,5 @@ Producing PG Dump files
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
-    $ pg_dump --format plain --verbose --schema "abs_2011" "abs" | gzip > abs_2011-abs.sql.gz
+    $ pg_dump --format plain --verbose --schema "asgs_2011" "abs" | gzip > asgs_2011.sql.gz
 
