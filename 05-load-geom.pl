@@ -29,6 +29,10 @@ my %dst_col_mapping;
 my %dst_datatype_mapping;
 my @ordered_tables;
 
+# keep track of tables we load into so we can overwrite new ones but append to
+# ones which have a many to one (shp to psql table) relationship.
+my %tables_loaded_this_session;
+
 #FIXME HACK
 my @mb_sql;
 
@@ -108,7 +112,14 @@ for my $src_table (@ordered_tables) {
                     "--     $src_col -> ${dst_col}::$dst_col_datatype\n\n";
 
   print "ogr2ogr $shp_file...\n";
-  my $ogr_ret = `ogr2ogr -overwrite -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr -f PostgreSQL PG:"dbname=abs user=abs active_schema=$schema" $shp_file`;
+  # if we haven't already loaded into this table this session overwrite any
+  # existing data in the table, otherwise append to it
+  my $psql_update_method = "-overwrite";
+  if (exists $tables_loaded_this_session{$dst_table}) {
+    $psql_update_method = "-update -append";
+  }
+  my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr -f PostgreSQL PG:"dbname=abs user=abs active_schema=$schema" $shp_file`;
+  $tables_loaded_this_session{$dst_table} = "yes";
   die "Problem occured using ogr2ogr to load SHAPE file\n" if ($ogr_ret = undef);
 
   print "psql statements...\n";
