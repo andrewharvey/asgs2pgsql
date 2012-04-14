@@ -80,8 +80,8 @@ for my $src_table (@ordered_tables) {
   my $dst_table = $table_mapping{$src_table};
   my $volume = $volume_mapping{$src_table};
 
-  my @src_columns = keys $column_mappings->{$src_table};
-  my @dst_columns = values $column_mappings->{$src_table};
+  my @src_columns = keys %{$column_mappings->{$src_table}};
+  my @dst_columns = values %{$column_mappings->{$src_table}};
 
   print "-- $src_table -> $schema$dst_table ...\n";
 
