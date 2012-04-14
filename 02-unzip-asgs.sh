@@ -9,7 +9,7 @@ source ./global-vars.sh
 
 # extract the shp and csv files out of the zips
 
-for f in "$asgs_dir/*.zip"
+for f in "$asgs_dir"/*.zip
 do
   b=`basename "$f" '.zip'`
   mkdir -p "$asgs_unzip_dir/$b/"
