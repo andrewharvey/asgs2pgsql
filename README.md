@@ -5,6 +5,9 @@ These scripts are designed to load the Australian Bureau of Statistics
 [ASGS](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\)) into a PostgreSQL database. Both the data from the CSV files and spatial
 geometries from the SHAPE files are loaded together.
 
+Once the ABS releases the 2011 Census data, I hope to produce similar scripts
+to load that data into PostgreSQL referencing this ASGS schema.
+
 The ASGS consists of Volumes 1-5. Publications 1270.0.55.001 - 1270.0.55.005.
 Only Volumes 1-3 have been release and as such these scripts just process 1-3.
 
@@ -26,6 +29,12 @@ CC0 license.
     with this work has waived all copyright and related or neighboring
     rights to this work.
     http://creativecommons.org/publicdomain/zero/1.0/
+
+Before You Start
+=======
+Running these scripts is akin to building software from source. If you just
+want a copy of the database without needing to "build" it from source skip to
+the last two lines of this README.
 
 Requirements
 =======
