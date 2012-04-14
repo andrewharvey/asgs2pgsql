@@ -95,6 +95,12 @@ Next we load geometries into _ogr tables from the SHAPE files using,
 
 Again the schema mapping is controlled by the `shp2pgsql.map` file.
 
+By default the geometries are loaded into PostGIS using the same coordinate
+system as the source shape files. If you would prefer the OSM Slippy Map
+coordinate system (EPSG:3857) add the -use_osm_coordsys option, eg.
+
+    ./05-load-geom.pl -use_osm_coordsys < shp2pgsql.map
+
 By now we have the csv data in the _csv tables and shp file data in _ogr tables.
 We then use the 06 script generated from 05 to correct column types in the _ogr
 tables so we can then join them using the common key using,
