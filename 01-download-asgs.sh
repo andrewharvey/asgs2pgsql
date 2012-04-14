@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source global-vars.sh
+source ./global-vars.sh
 
 mkdir -p "$asgs_dir/"
 
