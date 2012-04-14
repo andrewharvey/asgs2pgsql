@@ -8,7 +8,6 @@
 use strict;
 use Text::CSV;
 use DBI;
-use Data::Dumper;
 
 sub cut($$);
 sub prepare_n($);
