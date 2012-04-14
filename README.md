@@ -47,11 +47,11 @@ Running the Scripts
 
 You can set up the abs user and database with,
 
-    $ sudo su - postgres
-    $ createuser --no-createdb --no-createrole --superuser abs
-    $ createdb --owner=abs abs
-    $ psql --username abs -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql abs
-    $ exit
+    sudo su - postgres
+    createuser --no-createdb --no-createrole --superuser abs
+    createdb --owner=abs abs
+    psql --username abs -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql abs
+    exit
 
 Once that is set up, the rest of the process is as follows.
 
@@ -106,5 +106,9 @@ Producing PG Dump files
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
-    $ pg_dump --format plain --verbose --schema "asgs_2011" "abs" | gzip > asgs_2011.sql.gz
+    pg_dump --format plain --verbose --schema "asgs_2011" --username "abs" "abs" | xz > asgs_2011.sql.xz
 
+I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
+creating the abs user and database, you can load it using,
+
+    xzcat asgs_2011.sql.xz | psql -f - abs abs
