@@ -34,7 +34,7 @@ Before You Start
 =======
 Running these scripts is akin to building software from source. If you just
 want a copy of the database without needing to "build" it from source skip to
-the last two lines of this README.
+the [last two lines of this README](#prebuilt_dump).
 
 Requirements
 =======
@@ -53,7 +53,7 @@ and run these scripts as that user.
 
 Running the Scripts
 =======
-
+<a id="createdb"/>
 You can set up the abs user and database with,
 
     sudo su - postgres
@@ -117,7 +117,10 @@ create a PostgreSQL dump file using,
 
     pg_dump --format plain --verbose --schema "asgs_2011" --username "abs" "abs" | xz > asgs_2011.sql.xz
 
+<a id="prebuilt_dump"/>
 I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
-creating the abs user and database, you can load it using,
+creating the abs user and database (with the PostGIS extensions) as described
+in the [first chunck of code under the Running the Scripts section](#createdb),
+you can load the database dump using,
 
     xzcat asgs_2011.sql.xz | psql -f - abs abs
