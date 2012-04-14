@@ -35,7 +35,7 @@ while (<STDIN>) {
     my $volume = $1;
     my $src_table = $2;
     my $src_column = $3;
-    my $dst_table = $4;
+    my $dst_table = "$4" . "_csv";
     my $dst_column = $5;
 
     # if wildcard character exists, expand it now
@@ -148,7 +148,7 @@ for my $link (@links) {
     my $volume = $1;
     my $src_table = $2;
     my $csv_sa1_attribute = $3;
-    my $db_sa1_table = $4;
+    my $db_sa1_table = "$4" . "_csv";
     my $db_sa1_attribute = $5;
     my $csv_link_attribute = $6;
     my $db_link_attribute = $7;

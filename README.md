@@ -69,9 +69,9 @@ If this step has been broken due to a change on the abs.gov.au web server,
 because the source datasets are CC-BY 2.5 licensed, I host a copy of the results
 after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
 
-Next we create the database schema using,
+Next we create the database schema and _csv tables using,
 
-    psql --username abs -f 03-create-asgs-schema.sql abs
+    psql --username abs -f 03-create-asgs-csv-schema.sql abs
 
 Next we load the flat data from the CSV files into PostgreSQL with,
 
@@ -79,15 +79,26 @@ Next we load the flat data from the CSV files into PostgreSQL with,
 
 The filename/table name and attribute mappings are defined in `csv2pgsql.map`.
 
-Next we load the geometries into these PostgreSQL tables from the SHAPE files
-using,
+Next we load geometries into _ogr tables from the SHAPE files using,
 
     ./05-load-geom.pl < shp2pgsql.map
 
 Again the schema mapping is controlled by the `shp2pgsql.map` file.
 
-Please note that these scripts are still a work in progress and should be
-considered EXPERIMENTAL. Use at your own risk.
+By now we have the csv data in the _csv tables and shp file data in _ogr tables.
+We then use the 06 script generated from 05 to correct column types in the _ogr
+tables so we can then join them using the common key using,
+
+    psql --username abs -f 06-cast-ogr.sql
+
+Next to join the csv and ogr tables together we run,
+
+    psql --username abs -f 07-create-asgs-schema.sql
+
+And finally fixup the geometry_columns table and cleanup the _ogr and _csv
+tables leaving just the final joined tables with,
+
+    psql --username abs -f 08-clean-ogr.sql
 
 Producing PG Dump files
 =======

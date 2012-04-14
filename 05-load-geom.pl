@@ -6,16 +6,10 @@
 # http://creativecommons.org/publicdomain/zero/1.0/
 
 use strict;
-use DBI;
-use Data::Dumper;
 
 my $schema = "asgs_2011";
 
 my $asgs_unzip_dir = "02-ASGS-UNZIP";
-
-my $delay_sql = "no"; # yes/no (yes writes SQL to file for later execution, no executes sql straight away)
-
-sub do_sql($);
 
 # table_mapping - hash of SHAPE file name to PostgreSQL table name
 # volume_mapping - hash of SHAPE file name to dataset ABS publication volume
@@ -31,10 +25,9 @@ my @ordered_tables;
 
 # keep track of tables we load into so we can overwrite new ones but append to
 # ones which have a many to one (shp to psql table) relationship.
-my %tables_loaded_this_session;
+my %ogr_tables_loaded_this_session;
 
-#FIXME HACK
-my @mb_sql;
+my %sql_generated_tables_this_session;
 
 while (<STDIN>) {
   chomp;
@@ -80,14 +73,9 @@ while (<STDIN>) {
   }
 }
 
-my $sql_fh;
-if ($delay_sql eq "yes") {
-  open ($sql_fh, '>', "05-load-geom-part2.sql") or die $!;
-}
+open (my $cast_ogr_sql_fh, '>', "06-cast-ogr.sql") or die $!;
+open (my $cleanup_sql_fh, '>', "08-clean-ogr.sql") or die $!;
 
-# set up database connection
-my $dbh = DBI->connect("DBI:Pg:dbname=abs;host=localhost", 'abs', '' , {'RaiseError' => 1, AutoCommit => 1});
-my $sth;
 
 for my $src_table (@ordered_tables) {
 
@@ -101,62 +89,42 @@ for my $src_table (@ordered_tables) {
 
   my $shp_file = "$asgs_unzip_dir/127005500${volume}_" . lc ($src_table) . "_shape/" . uc ($src_table) . ".shp";
 
-  my $comment_fh;
-  if ($delay_sql eq "yes") {
-    $comment_fh = $sql_fh;
-  }else{
-    $comment_fh = <STDOUT>;
-  }
-  print $comment_fh "-- $shp_file\n";
-  print $comment_fh "-- $src_table -> $schema.$dst_table ON \n".
-                    "--     $src_col -> ${dst_col}::$dst_col_datatype\n\n";
-
   print "ogr2ogr $shp_file...\n";
   # if we haven't already loaded into this table this session overwrite any
   # existing data in the table, otherwise append to it
   my $psql_update_method = "-overwrite";
-  if (exists $tables_loaded_this_session{$dst_table}) {
+  if (exists $ogr_tables_loaded_this_session{$dst_table}) {
     $psql_update_method = "-update -append";
   }
   my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr -f PostgreSQL PG:"dbname=abs user=abs active_schema=$schema" $shp_file`;
-  $tables_loaded_this_session{$dst_table} = "yes";
+  $ogr_tables_loaded_this_session{$dst_table} = "yes";
   die "Problem occured using ogr2ogr to load SHAPE file\n" if ($ogr_ret = undef);
 
   print "psql statements...\n";
 
-  # FIXME HACK
-  if ($dst_table eq "mb") {
-    push @mb_sql, ("UPDATE $schema.$dst_table SET geom = (SELECT wkb_geometry FROM $schema.${dst_table}_ogr WHERE $schema.$dst_table.$dst_col = $schema.${dst_table}_ogr.${src_col}::$dst_col_datatype);", "UPDATE geometry_columns SET f_geometry_column = 'geom', f_table_name = '$dst_table' WHERE (f_table_schema = '$schema' AND f_table_name = '${dst_table}_ogr');", "DROP TABLE $schema.${dst_table}_ogr CASCADE;", "VACUUM ANALYZE $schema.$dst_table;");
-  }else{
-    do_sql("UPDATE $schema.$dst_table SET geom = (SELECT wkb_geometry FROM $schema.${dst_table}_ogr WHERE $schema.$dst_table.$dst_col = $schema.${dst_table}_ogr.${src_col}::$dst_col_datatype);");
+  if (!exists $sql_generated_tables_this_session{$dst_table}) {
+    # generate SQL to change the datatype of the attribute we use to JOIN back to the CSV table so they are common
+    print $cast_ogr_sql_fh "-- change datatype so we can join USING (code)\n";
+    print $cast_ogr_sql_fh "BEGIN;\n".
+                           "ALTER TABLE $schema.${dst_table}_ogr ADD COLUMN $dst_col $dst_col_datatype;\n".
+                           "UPDATE $schema.${dst_table}_ogr SET $dst_col = CAST($src_col AS $dst_col_datatype);\n".
+                           "ALTER TABLE $schema.${dst_table}_ogr DROP COLUMN $src_col;\n".
+                           "COMMIT;\n";
+    print $cast_ogr_sql_fh "VACUUM ANALYZE $schema.${dst_table}_ogr;\n\n";
 
-    do_sql("UPDATE geometry_columns SET f_geometry_column = 'geom', f_table_name = '$dst_table' WHERE (f_table_schema = '$schema' AND f_table_name = '${dst_table}_ogr');");
+    # generate SQL to clean up the geometry_columns table post join and drop the _ogr and _csv tables
 
-    do_sql("DROP TABLE $schema.${dst_table}_ogr CASCADE;");
+    print $cleanup_sql_fh "UPDATE geometry_columns SET f_geometry_column = 'geom', f_table_name = '$dst_table' WHERE (f_table_schema = '$schema' AND f_table_name = '${dst_table}_ogr');\n";
 
-    do_sql("VACUUM ANALYZE $schema.$dst_table;");
+    print $cleanup_sql_fh "DROP TABLE $schema.${dst_table}_ogr CASCADE;\n";
+    print $cleanup_sql_fh "DROP TABLE $schema.${dst_table}_csv CASCADE;\n\n";
+
+    $sql_generated_tables_this_session{$dst_table} = "yes";
   }
-  print $comment_fh "\n\n";
 }
 
-for my $q (@mb_sql) {
-  do_sql($q);
-}
-
-$dbh->disconnect or warn $!;
-
-if ($delay_sql eq "yes") {
-  close ($sql_fh) or warn $!;
-}
+close ($cast_ogr_sql_fh) or warn $!;
+close ($cleanup_sql_fh) or warn $!;
 
 print "Success!\n";
-
-sub do_sql($) {
-  my ($sql) = @_;
-  if ($delay_sql eq "yes") {
-    print $sql_fh "$sql\n";
-  }else{
-    $sth = $dbh->do($sql);
-  }
-}
 
