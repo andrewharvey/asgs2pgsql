@@ -39,8 +39,8 @@ the [last two lines of this README](#prebuilt_dump).
 Requirements
 =======
 
-Debian Dependencies: `gdal-bin, libdbd-pg-perl, postgresql-9.1-postgis,
-  libtext-csv-perl, unzip, wget`
+Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
+  postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
 
 The scripts assume you have a PostgreSQL database up and running and you have
 configured it such that you can connect to the database abs with user abs
