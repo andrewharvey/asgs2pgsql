@@ -70,11 +70,6 @@ my $dbh = DBI->connect("DBI:Pg:dbname=abs;host=localhost", 'abs', '' , {'RaiseEr
 my $sth;
 
 # truncate all tables prior to inserting values
-
-#print Dumper (@ordered_tables);
-#print Dumper(keys %table_mapping);
-#exit;
-
 for my $src_table (@ordered_tables) {
   my $dst_table = $table_mapping{$src_table};
   my $sth = $dbh->do("TRUNCATE TABLE $schema$dst_table CASCADE;");
