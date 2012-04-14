@@ -27,24 +27,25 @@ CC0 license.
     rights to this work.
     http://creativecommons.org/publicdomain/zero/1.0/
 
-
 Requirements
 =======
 
 Debian Dependencies: `gdal-bin, libdbd-pg-perl, postgresql-9.1-postgis,
   libtext-csv-perl, unzip, wget`
 
-The scripts assume you have a PostgreSQL database up and running with a user of
-name `abs` and a database owned by `abs` called `abs` which you can connect to
-without authentication.
+The scripts assume you have a PostgreSQL database up and running and you have
+configured it such that you can connect to the database abs with user abs
+without authentication. For example by adding the following line to `/etc/postgresql/9.*/main/pg_hba.conf`
 
-I plan to allow control of the postgres host and port using the PGHOST and
-PGPORT environment variables, in a later release.
+    local   abs   abs      trust
+
+You could substitute trust with ident if you create the user abs on your system
+and run these scripts as that user.
 
 Running the Scripts
 =======
 
-You can set up the user and database with,
+You can set up the abs user and database with,
 
     $ sudo su - postgres
     $ createuser --no-createdb --no-createrole --superuser abs
@@ -54,9 +55,9 @@ You can set up the user and database with,
 
 Once that is set up, the rest of the process is as follows.
 
-Currently the download paramaters are hard configured within `01-download-asgs.sh`
+Currently the download parameters are hard configured within `01-download-asgs.sh`
 these were created using the script `00-make-download-code.sh`. I'm still not sure
-if this is the best approach or if the download paramaters should be parsed from
+if this is the best approach or if the download parameters should be parsed from
 the source HTML file at each call of `01-download-asgs.sh`. For now you should be
 able to run,
 
