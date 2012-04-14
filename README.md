@@ -130,3 +130,10 @@ in the [first chunck of code under the Running the Scripts section](#createdb),
 you can load the database dump using,
 
     xzcat asgs_2011.sql.xz | psql -f - abs abs
+
+Because I'm unsure how to install PostGIS into a schema other than public with
+PostGIS 1.4, the geometry_columns and spatial_ref_sys tables aren't included in
+the DB dump. I believe PostGIS 2.0 makes it easier to install the extension in
+another schema, so this issue should be resolved when PostGIS 2.0 is packaged
+for Debian and I'm able to load the PostGIS exentions into the asgs_2011
+schema.
