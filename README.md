@@ -43,10 +43,15 @@ Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
   postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
 
 The scripts assume you have a PostgreSQL database up and running and you have
-configured it such that you can connect to the database abs with user abs
-without authentication. For example by adding the following line to `/etc/postgresql/9.*/main/pg_hba.conf`
+configured it such that you can connect to the database either without
+authentication or password authentication.
+
+For example by adding the following line to `/etc/postgresql/9.*/main/pg_hba.conf`
 
     local   abs   abs      trust
+
+the database named abs can be accessed by the database user abs without
+authentication.
 
 You could substitute trust with ident if you create the user abs on your system
 and run these scripts as that user.
@@ -54,7 +59,9 @@ and run these scripts as that user.
 Running the Scripts
 =======
 <a id="createdb"/>
-You can set up the abs user and database with,
+If you don't already have a database and database user set up and you haven't
+loaded the PostGIS extensions into that database, then you can set up the user,
+database and PostGIS extensions on Debian using,
 
     sudo su - postgres
     createuser --no-createdb --no-createrole --superuser abs
@@ -63,6 +70,16 @@ You can set up the abs user and database with,
     exit
 
 Once that is set up, the rest of the process is as follows.
+
+You need to set up and export some PG environment variables otherwise the
+PostgreSQL defaults will be used. For example,
+
+    export PGHOST=localhost
+    export PGDATABASE=abs
+    export PGUSER=abs
+
+Refer to the [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/libpq-envars.html)
+for details on the environment variables which you can set.
 
 Currently the download parameters are hard configured within `01-download-asgs.sh`
 these were created using the script `00-make-download-code.sh`. I'm still not sure
@@ -81,7 +98,7 @@ after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-A
 
 Next we create the database schema and _csv tables using,
 
-    psql --username abs -f 03-create-asgs-csv-schema.sql abs
+    psql -f 03-create-asgs-csv-schema.sql
 
 Next we load the flat data from the CSV files into PostgreSQL with,
 
@@ -105,16 +122,16 @@ By now we have the csv data in the _csv tables and shp file data in _ogr tables.
 We then use the 06 script generated from 05 to correct column types in the _ogr
 tables so we can then join them using the common key using,
 
-    psql --username abs -f 06-cast-ogr.sql
+    psql -f 06-cast-ogr.sql
 
 Next to join the csv and ogr tables together we run,
 
-    psql --username abs -f 07-create-asgs-schema.sql
+    psql -f 07-create-asgs-schema.sql
 
 And finally fixup the geometry_columns table and cleanup the _ogr and _csv
 tables leaving just the final joined tables with,
 
-    psql --username abs -f 08-clean-ogr.sql
+    psql -f 08-clean-ogr.sql
 
 Producing PG Dump files
 =======

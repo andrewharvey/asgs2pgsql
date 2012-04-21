@@ -65,7 +65,7 @@ while (<STDIN>) {
 }
 
 # set up database connection
-my $dbh = DBI->connect("DBI:Pg:dbname=abs;host=localhost", 'abs', '' , {'RaiseError' => 1, AutoCommit => 0});
+my $dbh = DBI->connect("DBI:Pg:", '', '' , {'RaiseError' => 1, AutoCommit => 0});
 my $sth;
 
 # truncate all tables prior to inserting values

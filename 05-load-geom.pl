@@ -109,7 +109,7 @@ for my $src_table (@ordered_tables) {
     $t_srs = "-t_srs '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=\@null +wktext +no_defs +over'";
   }
 
-  my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"dbname=abs user=abs active_schema=$schema" $shp_file`;
+  my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file`;
   $ogr_tables_loaded_this_session{$dst_table} = "yes";
   die "Problem occured using ogr2ogr to load SHAPE file\n" if ($ogr_ret = undef);
 
