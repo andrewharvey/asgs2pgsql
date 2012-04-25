@@ -57,8 +57,9 @@ You could substitute trust with ident if you create the user abs on your system
 and run these scripts as that user.
 
 Running the Scripts
-=======
-<a id="createdb"/>
+===================
+Setting up the database environment
+-------------------------------------
 First you need to set up and export some PG environment variables otherwise the
 PostgreSQL defaults will be used. For example,
 
@@ -80,59 +81,40 @@ database and PostGIS extensions on Debian using (replacing YOUR_DB and YOUR_DB_U
     # then with your PG* environment variables set load the postgis extensions
     psql -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
 
-Once that is set up, the rest of the process is as follows.
+Once that is set up, the rest of the process can be divided into two stages.
 
+Stage 1 involves obtaining a local copy of the source ASGS data, and stage 2
+involves loading this data into the PostgreSQL schema.
+
+Stage 1: Downloading the source ASGS data
+-------------------------------------
 Currently the download parameters are hard configured within `01-download-asgs.sh`
 these were created using the script `00-make-download-code.sh`. I'm still not sure
 if this is the best approach or if the download parameters should be parsed from
 the source HTML file at each call of `01-download-asgs.sh`. For now you should be
-able to run,
+able to just run,
 
-    ./01-download-asgs.sh
-    ./02-unzip-asgs.sh
+    make download
 
-Which should download and unzip the ASGS Volume 1-5 files.
+, which should download and unzip the ASGS Volume 1-5 files.
 
-If this step has been broken due to a change on the abs.gov.au web server,
-because the source datasets are CC-BY 2.5 licensed, I host a copy of the results
+If this step has been broken due to a change on the abs.gov.au web server
+(because the source datasets are CC-BY 2.5 licensed) I host a copy of the results
 after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
+Just download this directory then run 02-unzip-asgs.sh.
 
-Next we create the database schema and _csv tables using,
+Stage 2: Loading the ASGS data into the database schema
+-------------------------------------
+This stage assumes you have the 02-ASGS-UNZIP directory from stage 1. With this
+just run,
 
-    psql -f 03-create-asgs-csv-schema.sql
+    make
 
-Next we load the flat data from the CSV files into PostgreSQL with,
+By default the geometries are loaded into PostGIS using the OSM Slippy Map
+coordinate system (EPSG:3857) (by using the -use_osm_coordsys option when 
+calling ./stage2/05-load-geom.pl from the Makefile). To use the same coordinate
+system as the source shape files, remove this option.
 
-    ./04-load-csv-data.pl < csv2psql.map
-
-The filename/table name and attribute mappings are defined in `csv2pgsql.map`.
-
-Next we load geometries into _ogr tables from the SHAPE files using,
-
-    ./05-load-geom.pl < shp2pgsql.map
-
-Again the schema mapping is controlled by the `shp2pgsql.map` file.
-
-By default the geometries are loaded into PostGIS using the same coordinate
-system as the source shape files. If you would prefer the OSM Slippy Map
-coordinate system (EPSG:3857) add the -use_osm_coordsys option, eg.
-
-    ./05-load-geom.pl -use_osm_coordsys < shp2pgsql.map
-
-By now we have the csv data in the _csv tables and shp file data in _ogr tables.
-We then use the 06 script generated from 05 to correct column types in the _ogr
-tables so we can then join them using the common key using,
-
-    psql -f 06-cast-ogr.sql
-
-Next to join the csv and ogr tables together we run,
-
-    psql -f 07-create-asgs-schema.sql
-
-And finally fixup the geometry_columns table and cleanup the _ogr and _csv
-tables leaving just the final joined tables with,
-
-    psql -f 08-clean-ogr.sql
 
 Producing PG Dump files
 =======

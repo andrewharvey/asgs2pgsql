@@ -79,8 +79,8 @@ while (<STDIN>) {
   }
 }
 
-open (my $cast_ogr_sql_fh, '>', "06-cast-ogr.sql") or die $!;
-open (my $cleanup_sql_fh, '>', "08-clean-ogr.sql") or die $!;
+open (my $cast_ogr_sql_fh, '>', "stage2/06-cast-ogr.sql") or die $!;
+open (my $cleanup_sql_fh, '>', "stage2/08-clean-ogr.sql") or die $!;
 
 
 for my $src_table (@ordered_tables) {

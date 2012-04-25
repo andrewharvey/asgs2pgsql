@@ -7,8 +7,6 @@
 -- This schema is partly derived from the ASGS structure.
 -- http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+%28ASGS%29
 
-DROP SCHEMA asgs_2011 CASCADE;
-
 CREATE SCHEMA asgs_2011;
 
 CREATE TABLE asgs_2011.state_csv
