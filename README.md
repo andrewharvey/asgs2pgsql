@@ -121,7 +121,7 @@ Producing PG Dump files
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
-    pg_dump --format plain --verbose --schema "asgs_2011" --username "abs" "abs" | xz > asgs_2011.sql.xz
+    pg_dump --format plain --schema "asgs_2011" | xz > asgs_2011.sql.xz
 
 <a id="prebuilt_dump"/>
 I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
@@ -129,7 +129,7 @@ creating the abs user and database (with the PostGIS extensions) as described
 in the [first chunck of code under the Running the Scripts section](#createdb),
 you can load the database dump using,
 
-    xzcat asgs_2011.sql.xz | psql -f - abs abs
+    xzcat asgs_2011.sql.xz | psql -f -
 
 Because I'm unsure how to install PostGIS into a schema other than public with
 PostGIS 1.4, the geometry_columns and spatial_ref_sys tables aren't included in
