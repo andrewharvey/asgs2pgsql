@@ -59,19 +59,7 @@ and run these scripts as that user.
 Running the Scripts
 =======
 <a id="createdb"/>
-If you don't already have a database and database user set up and you haven't
-loaded the PostGIS extensions into that database, then you can set up the user,
-database and PostGIS extensions on Debian using,
-
-    sudo su - postgres
-    createuser --no-createdb --no-createrole --superuser abs
-    createdb --owner=abs abs
-    psql --username abs -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql abs
-    exit
-
-Once that is set up, the rest of the process is as follows.
-
-You need to set up and export some PG environment variables otherwise the
+First you need to set up and export some PG environment variables otherwise the
 PostgreSQL defaults will be used. For example,
 
     export PGHOST=localhost
@@ -80,6 +68,19 @@ PostgreSQL defaults will be used. For example,
 
 Refer to the [PostgreSQL documentation](http://www.postgresql.org/docs/current/static/libpq-envars.html)
 for details on the environment variables which you can set.
+
+If you don't already have a database and database user set up and you haven't
+loaded the PostGIS extensions into that database, then you can set up the user,
+database and PostGIS extensions on Debian using (replacing YOUR_DB and YOUR_DB_USER),
+
+    sudo su - postgres
+    createuser --no-createdb --no-createrole --superuser YOUR_DB
+    createdb --owner=YOUR_DB_USER YOUR_DB
+    exit
+    # then with your PG* environment variables set load the postgis extensions
+    psql -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+
+Once that is set up, the rest of the process is as follows.
 
 Currently the download parameters are hard configured within `01-download-asgs.sh`
 these were created using the script `00-make-download-code.sh`. I'm still not sure
