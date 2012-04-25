@@ -115,6 +115,11 @@ coordinate system (EPSG:3857) (by using the -use_osm_coordsys option when
 calling ./stage2/05-load-geom.pl from the Makefile). To use the same coordinate
 system as the source shape files, remove this option.
 
+Stage 3: Materialised Pyramids of Generalised Geometries (Optional)
+-------------------------------------
+You can optionally produce materialised pyramid tables of the generalised geometries,
+
+    make generalization_pyramid
 
 Producing PG Dump files
 =======

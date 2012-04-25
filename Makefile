@@ -42,3 +42,13 @@ load :
 	# fixup the geometry_columns table and cleanup the _ogr and _csv tables
 	# leaving just the final joined tables
 	psql -f stage2/08-clean-ogr.sql
+
+generalization_pyramid :
+	# the arguments given are the levels of the pyramid to create (1 table for each argument)
+	# they are used as the PostGIS ST_SimplifyPreserveTopology tolerance parameter
+	# and are in the spatial reference system units (so if using -use_osm_coordsys
+	# for 05-load-geom.pl then will be in meters, otherwise decimal degrees)
+	./09-generalization-pyramid.sh 5 25 50
+
+drop_generalization_pyramid :
+	psql -f drop-generalization-pyramid.sql
