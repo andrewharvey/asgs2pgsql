@@ -106,7 +106,7 @@ for my $src_table (@ordered_tables) {
   # transform geometry to the OSM projection when loading geometry
   my $t_srs = ""; # empty string means don't transform, rather leave in same coordsys as source shape file
   if ($transform_to_osm_coordsys eq "yes") {
-    $t_srs = "-t_srs '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=\@null +wktext +no_defs +over'";
+    $t_srs = "-t_srs 'EPSG:3785'";
   }
 
   my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file`;
