@@ -121,7 +121,7 @@ Producing PG Dump files
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
-    pg_dump --format plain --schema "asgs_2011" | xz > asgs_2011.sql.xz
+    pg_dump --format plain --schema "asgs_2011" --no-owner | xz > asgs_2011.sql.xz
 
 <a id="prebuilt_dump"/>
 I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
