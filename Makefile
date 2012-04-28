@@ -42,6 +42,9 @@ load :
 	# fixup the geometry_columns table and cleanup the _ogr and _csv tables
 	# leaving just the final joined tables
 	psql -f stage2/08-clean-ogr.sql
+	
+	# load extra ASGS related functions
+	psql -f stage2/99-load-extra-asgs-functions.sql
 
 generalization_pyramid :
 	# the arguments given are the levels of the pyramid to create (1 table for each argument)
