@@ -15,12 +15,10 @@ my $asgs_unzip_dir = "02-ASGS-UNZIP";
 # volume_mapping - hash of SHAPE file name to dataset ABS publication volume
 # src_col_mapping - hash of SHAPE file name to SHAPE file primary key attribute
 # dst_col_mapping - hash of SHAPE file name to PostgreSQL primary key attribute
-# dst_datatype_mapping - hash of SHAPE file name to PostgreSQL primary key attribute
 my %table_mapping;
 my %volume_mapping;
 my %src_col_mapping;
 my %dst_col_mapping;
-my %dst_datatype_mapping;
 my @ordered_tables;
 
 # keep track of tables we load into so we can overwrite new ones but append to
@@ -40,13 +38,12 @@ while (<STDIN>) {
   next if /^#/;
   next if /^\s*$/;
 
-  if (/([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)\s(.*)/) {
+  if (/([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)/) {
     my $volume = $1;
     my $src_table = $2;
     my $src_column = $3;
     my $dst_table = $4;
     my $dst_column = $5;
-    my $dst_datatype = $6;
 
     # if wildcard character exists, expand it now
     if ($src_table =~ /\*/) {
@@ -58,7 +55,6 @@ while (<STDIN>) {
           $table_mapping{$expanded_src_table} = $dst_table;
           $src_col_mapping{$expanded_src_table} = $src_column;
           $dst_col_mapping{$expanded_src_table} = $dst_column;
-          $dst_datatype_mapping{$expanded_src_table} = $dst_datatype;
           if (scalar (grep (/^$expanded_src_table$/, @ordered_tables)) == 0) {
             push @ordered_tables, $expanded_src_table;
           }
@@ -69,7 +65,6 @@ while (<STDIN>) {
       $table_mapping{$src_table} = $dst_table;
       $src_col_mapping{$src_table} = $src_column;
       $dst_col_mapping{$src_table} = $dst_column;
-      $dst_datatype_mapping{$src_table} = $dst_datatype;
       if (scalar (grep (/^$src_table$/, @ordered_tables)) == 0) {
         push @ordered_tables, $src_table;
       }
@@ -91,7 +86,7 @@ for my $src_table (@ordered_tables) {
   my $src_col = $src_col_mapping{$src_table};
   my $dst_col = $dst_col_mapping{$src_table};
 
-  my $dst_col_datatype = $dst_datatype_mapping{$src_table};
+  my $dst_col_datatype = "${dst_table}_${dst_col}";
 
   my $shp_file = "$asgs_unzip_dir/127005500${volume}_" . lc ($src_table) . "_shape/" . uc ($src_table) . ".shp";
 
@@ -119,8 +114,8 @@ for my $src_table (@ordered_tables) {
     # generate SQL to change the datatype of the attribute we use to JOIN back to the CSV table so they are common
     print $cast_ogr_sql_fh "-- change datatype so we can join USING (code)\n";
     print $cast_ogr_sql_fh "BEGIN;\n".
-                           "ALTER TABLE $schema.${dst_table}_ogr ADD COLUMN $dst_col $dst_col_datatype;\n".
-                           "UPDATE $schema.${dst_table}_ogr SET $dst_col = CAST($src_col AS $dst_col_datatype);\n".
+                           "ALTER TABLE $schema.${dst_table}_ogr ADD COLUMN $dst_col $schema.$dst_col_datatype;\n".
+                           "UPDATE $schema.${dst_table}_ogr SET $dst_col = CAST($src_col AS $schema.$dst_col_datatype);\n".
                            "ALTER TABLE $schema.${dst_table}_ogr DROP COLUMN $src_col;\n".
                            "COMMIT;\n";
     print $cast_ogr_sql_fh "VACUUM ANALYZE $schema.${dst_table}_ogr;\n\n";
