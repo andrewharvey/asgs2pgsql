@@ -69,11 +69,11 @@ my $dbh = DBI->connect("DBI:Pg:", '', '' , {'RaiseError' => 1, AutoCommit => 0})
 my $sth;
 
 # truncate all tables prior to inserting values
-for my $src_table (@ordered_tables) {
-  my $dst_table = $table_mapping{$src_table};
-  my $sth = $dbh->do("TRUNCATE TABLE $schema$dst_table CASCADE;");
-  $dbh->commit;
-}
+#for my $src_table (@ordered_tables) {
+#  my $dst_table = $table_mapping{$src_table};
+#  my $sth = $dbh->do("TRUNCATE TABLE $schema$dst_table CASCADE;");
+#  $dbh->commit;
+#}
 
 for my $src_table (@ordered_tables) {
   my $dst_table = $table_mapping{$src_table};
