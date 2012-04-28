@@ -279,7 +279,8 @@ CREATE TABLE asgs_2011.nrmr_csv
 CREATE TABLE asgs_2011.ssc_csv
 (
   "code" asgs_2011.ssc_code PRIMARY KEY,
-  "name" text
+  "name" text,
+  "conf" text
 );
 
 CREATE TABLE asgs_2011.poa_csv
