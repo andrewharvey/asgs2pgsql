@@ -51,7 +51,9 @@ generalization_pyramid :
 	# they are used as the PostGIS ST_SimplifyPreserveTopology tolerance parameter
 	# and are in the spatial reference system units (so if using -use_osm_coordsys
 	# for 05-load-geom.pl then will be in meters, otherwise decimal degrees)
-	./stage3/09-generalization-pyramid.sh 25 100
+	# for meters, a good rule of thumb is f(z) = 2^(-z) * 102400
+	# i.e. at zoom 10 use a tolerance of 100, at zoom 11 use a tolerance of 50, etc.
+	./stage3/09-generalization-pyramid.sh 5 12 25 50 100 200 400 800 1600 3200
 
 drop_generalization_pyramid :
 	psql -f stage3/drop-generalization-pyramid.sql
