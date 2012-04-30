@@ -52,7 +52,7 @@ CHECK (
 
 CREATE DOMAIN asgs_2011.add_code AS char(3)
 CHECK (
-  VALUE ~ '^\d{3}$'
+  VALUE ~ '^D\d{2}$'
 );
 
 CREATE DOMAIN asgs_2011.poa_code AS char(4)
