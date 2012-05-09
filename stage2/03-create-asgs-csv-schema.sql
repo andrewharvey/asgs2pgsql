@@ -292,7 +292,8 @@ CREATE TABLE asgs_2011.poa_csv
 CREATE TABLE asgs_2011.lga_csv
 (
   "code" asgs_2011.lga_code PRIMARY KEY,
-  "name" text
+  "name" text,
+  "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
 CREATE TABLE asgs_2011.sa1_csv
