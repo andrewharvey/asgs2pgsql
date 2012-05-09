@@ -2,7 +2,7 @@
 -- Although all ABS struture codes appear to be distinct, I'm unsure how to
 -- distinguish MB codes from SA1 codes. For now all 11 digit codes are returned
 -- as SA1 even if they are actually MB codes.
-CREATE FUNCTION asgs_2011.match_abs_structure_code(code character varying(11)) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION asgs_2011.match_abs_structure_code(code character varying(11)) RETURNS text AS $$
 BEGIN
   IF code ~ '^\d$' THEN
       return 'state';
@@ -31,4 +31,9 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-
+-- For a given ASGS_2011.LGA name return a short version of the name
+CREATE OR REPLACE FUNCTION asgs_2011.shorten_lga_name(name character varying(11)) RETURNS text AS $$
+BEGIN
+  return regexp_replace(name, ' \(.*', '');
+END
+$$ LANGUAGE plpgsql;
