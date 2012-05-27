@@ -2,14 +2,17 @@ About
 =======
 
 These scripts are designed to load the Australian Bureau of Statistics
-[ASGS](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\)) into a PostgreSQL database. Both the data from the CSV files and spatial
-geometries from the SHAPE files are loaded together.
+[ASGS](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\)) into a PostgreSQL database. The ASGS is published as a combination of
+non-spatial CSV files and spatial SHAPE files. Both of these files are used in
+this loader and combined together to form the (unofficial) ASGS PostgreSQL
+schema.
 
-Once the ABS releases the 2011 Census data, I hope to produce similar scripts
-to load that data into PostgreSQL referencing this ASGS schema.
+The 2011 ASGS consists of Volumes 1-5. Publications 1270.0.55.001 - 1270.0.55.005.
+Only Volumes 1-3 have been released and as such these scripts just process 1-3.
 
-The ASGS consists of Volumes 1-5. Publications 1270.0.55.001 - 1270.0.55.005.
-Only Volumes 1-3 have been release and as such these scripts just process 1-3.
+You may also be interested in my corresponding [abs2pgsql loader scripts](https://github.com/andrewharvey/abs2pgsql)
+which will (soon) load the ABS Census 2011 into PostgreSQL, making use of this ASGS
+schema to provide the geographic standard to those statistics.
 
 Copyright
 =======
@@ -42,19 +45,22 @@ Requirements
 Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
   postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
 
-The scripts assume you have a PostgreSQL database up and running and you have
-configured it such that you can connect to the database either without
-authentication or password authentication.
+The scripts assume you have a PostgreSQL database up and running. We leave
+authentication to this database your responsibility through the PostgreSQL
+environment variables which are described in the next section. I also describe
+creating a database in the next section if you don't know how to set one up.
 
-For example by adding the following line to `/etc/postgresql/9.*/main/pg_hba.conf`
+The simplest authentication setup is to allow local unauthenticated access to
+your database. You can do this by adding the following example line to
+`/etc/postgresql/9.*/main/pg_hba.conf`
 
     local   abs   abs      trust
 
-the database named abs can be accessed by the database user abs without
-authentication.
+This allows the database named `abs` to be accessed by the database user `abs`
+without authentication.
 
-You could substitute trust with ident if you create the user abs on your system
-and run these scripts as that user.
+You could substitute trust with ident if you create the user `abs` on your
+system and run these scripts as that user.
 
 Running the Scripts
 ===================
@@ -131,7 +137,7 @@ create a PostgreSQL dump file using,
 <a id="prebuilt_dump"/>
 I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
 creating the abs user and database (with the PostGIS extensions) as described
-in the [first chunck of code under the Running the Scripts section](#createdb),
+in the [first chunk of code under the Running the Scripts section](#createdb),
 you can load the database dump using,
 
     xzcat asgs_2011.sql.xz | psql -f -
@@ -140,5 +146,5 @@ Because I'm unsure how to install PostGIS into a schema other than public with
 PostGIS 1.4, the geometry_columns and spatial_ref_sys tables aren't included in
 the DB dump. I believe PostGIS 2.0 makes it easier to install the extension in
 another schema, so this issue should be resolved when PostGIS 2.0 is packaged
-for Debian and I'm able to load the PostGIS exentions into the asgs_2011
+for Debian and I'm able to load the PostGIS extensions into the asgs_2011
 schema.
