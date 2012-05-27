@@ -32,7 +32,7 @@ END
 $$ LANGUAGE plpgsql;
 
 -- For a given ASGS_2011.LGA name return a short version of the name
-CREATE OR REPLACE FUNCTION asgs_2011.shorten_lga_name(name character varying(11)) RETURNS text AS $$
+CREATE OR REPLACE FUNCTION asgs_2011.shorten_lga_name(name text) RETURNS text AS $$
 BEGIN
   return regexp_replace(name, ' \(.*', '');
 END
