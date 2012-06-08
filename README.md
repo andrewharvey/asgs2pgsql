@@ -1,18 +1,40 @@
 About
 =======
+This project is dedicated to providing the Australian Bureau of Statistics
+[Australian Statistical Geography Standard](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\))
+(ASGS) in a PostgreSQL database.
 
-These scripts are designed to load the Australian Bureau of Statistics
-[ASGS](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\)) into a PostgreSQL database. The ASGS is published as a combination of
-non-spatial CSV files and spatial SHAPE files. Both of these files are used in
-this loader and combined together to form the (unofficial) ASGS PostgreSQL
-schema.
+This is done by providing scripts to load the source data as provided by
+the ABS into PostgreSQL. I also provide a database dump of the loaded data.
 
-The 2011 ASGS consists of Volumes 1-5. Publications 1270.0.55.001 - 1270.0.55.005.
-Only Volumes 1-3 have been released and as such these scripts just process 1-3.
+The ASGS is published as a combination of non-spatial CSV files and
+spatial SHAPE files. Both of these files are used in this loader and
+combined together to form my (unofficial) ASGS PostgreSQL schema.
 
 You may also be interested in my corresponding [abs2pgsql loader scripts](https://github.com/andrewharvey/abs2pgsql)
-which will (soon) load the ABS Census 2011 into PostgreSQL, making use of this ASGS
-schema to provide the geographic standard to those statistics.
+which will (soon) load the ABS 2011 Census of Population and Housing into
+PostgreSQL, making use of this ASGS schema to provide the geographic
+standard to those statistics.
+
+About the ASGS
+=======
+The ASGS consists of two parts called the ABS Structures and Non-ABS
+Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%20Structure%20and%20Summary.pdf).
+
+The 2011 release of the ASGS consists of Volumes 1-5. Only Volumes 1-3
+have been released and as such these scripts just process volumes 1-3.
+
+Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas
+Volume 2 - 1270.0.55.002 consists of the Indigenous Structure
+Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures
+Volume 4 - 1270.0.55.004 consists of the Significant Urban Areas and Section of State/Urban Centres and Localities Structure (SUA, SOS/UCL)
+Volume 5 - 1270.0.55.005 consists of the Remoteness Structure
+
+The ABS Structures (vol 1, 2, 4, 5) will not change until the next Census
+in 2016, however the Non-ABS Structures (vol 3) will be updated annually.
+
+For now I load all the volumes into the asgs_2011 schema, although I will
+need to rethink this to address the annual updates and census updates.
 
 Copyright
 =======
@@ -37,11 +59,10 @@ Before You Start
 =======
 Running these scripts is akin to building software from source. If you just
 want a copy of the database without needing to "build" it from source skip to
-the [last two lines of this README](#prebuilt_dump).
+the [last section of this README](#prebuilt_dump).
 
 Requirements
 =======
-
 Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
   postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
 
