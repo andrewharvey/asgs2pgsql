@@ -24,9 +24,9 @@ Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.
 The 2011 release of the ASGS consists of Volumes 1-5. Only Volumes 1-3
 have been released and as such these scripts just process volumes 1-3.
 
-* Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas
-* Volume 2 - 1270.0.55.002 consists of the Indigenous Structure
-* Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures
+* Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas ([documentation](http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055001_july%202011.pdf&1270.0.55.001&Publication&D3DC26F35A8AF579CA257801000DCD7D&&July%202011&23.12.2010&Latest))
+* Volume 2 - 1270.0.55.002 consists of the Indigenous Structure ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055002_july%202011.pdf&1270.0.55.002&Publication&FE2D2D707996F20ACA25791000152669&&July%202011&20.09.2011&Previous))
+* Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055003_oct%202011.pdf&1270.0.55.003&Publication&469CDA45CE2B94CCCA257937000D966F&&July%202011&31.10.2011&Previous))
 * Volume 4 - 1270.0.55.004 consists of the Significant Urban Areas and Section of State/Urban Centres and Localities Structure (SUA, SOS/UCL)
 * Volume 5 - 1270.0.55.005 consists of the Remoteness Structure
 
