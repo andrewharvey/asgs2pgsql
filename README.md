@@ -24,11 +24,11 @@ Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.
 The 2011 release of the ASGS consists of Volumes 1-5. Only Volumes 1-3
 have been released and as such these scripts just process volumes 1-3.
 
-Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas
-Volume 2 - 1270.0.55.002 consists of the Indigenous Structure
-Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures
-Volume 4 - 1270.0.55.004 consists of the Significant Urban Areas and Section of State/Urban Centres and Localities Structure (SUA, SOS/UCL)
-Volume 5 - 1270.0.55.005 consists of the Remoteness Structure
+* Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas
+* Volume 2 - 1270.0.55.002 consists of the Indigenous Structure
+* Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures
+* Volume 4 - 1270.0.55.004 consists of the Significant Urban Areas and Section of State/Urban Centres and Localities Structure (SUA, SOS/UCL)
+* Volume 5 - 1270.0.55.005 consists of the Remoteness Structure
 
 The ABS Structures (vol 1, 2, 4, 5) will not change until the next Census
 in 2016, however the Non-ABS Structures (vol 3) will be updated annually.
