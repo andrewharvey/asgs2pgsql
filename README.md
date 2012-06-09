@@ -36,6 +36,13 @@ in 2016, however the Non-ABS Structures (vol 3) will be updated annually.
 For now I load all the volumes into the asgs_2011 schema, although I will
 need to rethink this to address the annual updates and census updates.
 
+In the future I may alter the schema with respect to the full codes. For
+example SA1's are unique with respect to their 11 digit code. However
+that 11 digit code is made up of S/T . SA4 . SA4 . SA3 . SA2 . SA1.
+Currently I store a materialised 11 digit SA1 code but really we could
+store only the materialised individual codes, and use a function or view
+to provide the 11 digit code without materialising it.
+
 Copyright
 =======
 The ABS ASGS data is Copyright (c) Commonwealth of Australia and as per 
