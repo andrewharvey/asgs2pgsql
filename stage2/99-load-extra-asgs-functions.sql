@@ -37,3 +37,40 @@ BEGIN
   return regexp_replace(name, ' \(.*', '');
 END
 $$ LANGUAGE plpgsql;
+
+-- For a given ASGS_2011.LGA name return the LGA status type code
+CREATE OR REPLACE FUNCTION asgs_2011.lga_status_type_code(name text) RETURNS text AS $$
+BEGIN
+  return (regexp_matches(name, '\((.*)\)'))[1]::text;
+END
+$$ LANGUAGE plpgsql;
+
+-- For a given ASGS_2011.LGA status type code return the full name for that Status Type
+CREATE OR REPLACE FUNCTION asgs_2011.lga_status_type_code_to_name(code text) RETURNS text AS $$
+BEGIN
+  CASE code
+    WHEN 'C' THEN
+      return 'City';
+    WHEN 'A' THEN
+      return 'Area';
+    WHEN 'RC' THEN
+      return 'Rural City';
+    WHEN 'B' THEN
+      return 'Borough';
+    WHEN 'S' THEN
+      return 'Shire';
+    WHEN 'T' THEN
+      return 'Town';
+    WHEN 'R', 'RegC' THEN
+      return 'Regional Council';
+    WHEN 'M' THEN
+      return 'Municipality';
+    WHEN 'DC' THEN
+      return 'District Council';
+    WHEN 'AC' THEN
+      return 'Aboriginal Council';
+    ELSE
+      return null;
+  END CASE;
+END
+$$ LANGUAGE plpgsql;
