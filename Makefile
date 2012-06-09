@@ -44,7 +44,10 @@ load :
 	psql -f stage2/08-clean-ogr.sql
 	
 	# load extra ASGS related functions
-	psql -f stage2/99-load-extra-asgs-functions.sql
+	psql -f stage2/98-load-extra-asgs-functions.sql
+	
+	# load extra views which provided added value to the standard ASGS schema
+	psql -f stage2/99-create-extra-views.sql
 
 generalization_pyramid :
 	# the arguments given are the levels of the pyramid to create (1 table for each argument)
