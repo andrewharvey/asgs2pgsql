@@ -43,6 +43,9 @@ load :
 	# leaving just the final joined tables
 	psql -f stage2/08-clean-ogr.sql
 	
+	# load the aust table (not part of official ASGS 2011, but referenced in the 2011 Census)
+	psql -f stage2/10-australia-hack.sql
+	
 	# load extra ASGS related functions
 	psql -f stage2/98-load-extra-asgs-functions.sql
 	
