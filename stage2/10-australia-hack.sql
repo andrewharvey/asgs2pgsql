@@ -7,7 +7,7 @@
 
 CREATE DOMAIN asgs_2011.aust_code AS char(1)
 CHECK (
-  VALUE ~ '^\d$'
+  VALUE ~ E'^\\d$'
 );
 
 CREATE TABLE asgs_2011.aust
