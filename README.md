@@ -115,26 +115,23 @@ database and PostGIS extensions on Debian using (replacing YOUR_DB and YOUR_DB_U
     # then with your PG* environment variables set load the postgis extensions
     psql -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
 
-Once that is set up, the rest of the process can be divided into two stages.
-
-Stage 1 involves obtaining a local copy of the source ASGS data, and stage 2
-involves loading this data into the PostgreSQL schema.
+Once that is set up, the rest of the process is as follows.
 
 Stage 1: Downloading the source ASGS data
 -------------------------------------
-Currently the download parameters are hard configured within `01-download-asgs.sh`
-these were created using the script `00-make-download-code.sh`. I'm still not sure
-if this is the best approach or if the download parameters should be parsed from
-the source HTML file at each call of `01-download-asgs.sh`. For now you should be
-able to just run,
+Currently the download parameters are hard configured within
+`01-download-asgs.sh`. These were created using the script
+`00-make-download-code.sh`. I'm still not sure if this is the best approach or
+if the download parameters should be parsed from the source HTML file at each
+call of `01-download-asgs.sh`. For now you should be able to just run,
 
     make download
 
-, which should download and unzip the ASGS Volume 1-5 files.
+which should download and unzip the ASGS Volume 1-5 files.
 
 If this step has been broken due to a change on the abs.gov.au web server
-(because the source datasets are CC-BY 2.5 licensed) I host a copy of the results
-after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
+(because the source datasets are CC-BY 2.5 licensed) I host a copy of the
+results after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
 Just download this directory then run 02-unzip-asgs.sh.
 
 Stage 2: Loading the ASGS data into the database schema
@@ -151,7 +148,8 @@ system as the source shape files, remove this option.
 
 Stage 3: Materialised Pyramids of Generalised Geometries (Optional)
 -------------------------------------
-You can optionally produce materialised pyramid tables of the generalised geometries,
+You can optionally produce materialised pyramid tables of the generalised
+geometries,
 
     make generalization_pyramid
 
