@@ -17,42 +17,42 @@ CREATE SCHEMA asgs_2011;
 
 CREATE DOMAIN asgs_2011.state_code AS char(1)
 CHECK (
-  VALUE ~ '^\d$'
+  VALUE ~ E'^\\d$'
 );
 
 CREATE DOMAIN asgs_2011.gccsa_code AS char(5)
 CHECK (
-  VALUE ~ '^\d\w{4}$'
+  VALUE ~ E'^\\d\\w{4}$'
 );
 
 CREATE DOMAIN asgs_2011.sa4_code AS char(3)
 CHECK (
-  VALUE ~ '^\d{3}$'
+  VALUE ~ E'^\\d{3}$'
 );
 
 CREATE DOMAIN asgs_2011.sa3_code AS char(5)
 CHECK (
-  VALUE ~ '^\d{5}$'
+  VALUE ~ E'^\\d{5}$'
 );
 
 CREATE DOMAIN asgs_2011.sa2_code AS char(9)
 CHECK (
-  VALUE ~ '^\d{9}$'
+  VALUE ~ E'^\\d{9}$'
 );
 
 CREATE DOMAIN asgs_2011.sa1_code AS char(11)
 CHECK (
-  VALUE ~ '^\d{11}$'
+  VALUE ~ E'^\\d{11}$'
 );
 
 CREATE DOMAIN asgs_2011.mb_code AS char(11)
 CHECK (
-  VALUE ~ '^\d{11}$'
+  VALUE ~ E'^\\d{11}$'
 );
 
 CREATE DOMAIN asgs_2011.add_code AS char(3)
 CHECK (
-  VALUE ~ '^D\d{2}$'
+  VALUE ~ E'^D\\d{2}$'
 );
 
 CREATE DOMAIN asgs_2011.poa_code AS char(4)
@@ -62,47 +62,47 @@ CHECK (
 
 CREATE DOMAIN asgs_2011.ssc_code AS char(5)
 CHECK (
-  VALUE ~ '^\d{5}$'
+  VALUE ~ E'^\\d{5}$'
 );
 
 CREATE DOMAIN asgs_2011.ced_code AS char(3)
 CHECK (
-  VALUE ~ '^\d{3}$'
+  VALUE ~ E'^\\d{3}$'
 );
 
 CREATE DOMAIN asgs_2011.sed_code AS char(5)
 CHECK (
-  VALUE ~ '^\d{5}$'
+  VALUE ~ E'^\\d{5}$'
 );
 
 CREATE DOMAIN asgs_2011.nrmr_code AS char(3)
 CHECK (
-  VALUE ~ '^\d{3}$'
+  VALUE ~ E'^\\d{3}$'
 );
 
 CREATE DOMAIN asgs_2011.lga_code AS char(5)
 CHECK (
-  VALUE ~ '^\d{5}$'
+  VALUE ~ E'^\\d{5}$'
 );
 
 CREATE DOMAIN asgs_2011.tr_code AS char(5)
 CHECK (
-  VALUE ~ '^\d\w{4}$'
+  VALUE ~ E'^\\d\\w{4}$'
 );
 
 CREATE DOMAIN asgs_2011.iloc_code AS char(8)
 CHECK (
-  VALUE ~ '^\d{8}$'
+  VALUE ~ E'^\\d{8}$'
 );
 
 CREATE DOMAIN asgs_2011.iare_code AS char(6)
 CHECK (
-  VALUE ~ '^\d{6}$'
+  VALUE ~ E'^\\d{6}$'
 );
 
 CREATE DOMAIN asgs_2011.ireg_code AS char(3)
 CHECK (
-  VALUE ~ '^\d{3}$'
+  VALUE ~ E'^\\d{3}$'
 );
 
 
