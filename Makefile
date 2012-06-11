@@ -63,3 +63,6 @@ generalization_pyramid :
 
 drop_generalization_pyramid :
 	psql -f stage3/drop-generalization-pyramid.sql
+
+dump :
+	pg_dump --format plain --schema "asgs_2011" --no-owner | xz > asgs_2011.sql.xz
