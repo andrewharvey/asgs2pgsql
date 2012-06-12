@@ -12,7 +12,8 @@ CHECK (
 
 CREATE TABLE asgs_2011.aust
 (
-  "code" asgs_2011.aust_code PRIMARY KEY,
+  "fid" serial PRIMARY KEY,
+  "code" asgs_2011.aust_code UNIQUE,
   "name" text
 );
 

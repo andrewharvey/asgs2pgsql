@@ -99,62 +99,117 @@ CREATE TABLE asgs_2011.mb AS (
   FROM asgs_2011.mb_csv csv LEFT JOIN asgs_2011.mb_ogr ogr USING (code)
 );
 
--- Set primary key constraints
+-- Set constraints
 
 ALTER TABLE asgs_2011.state 
-  ADD CONSTRAINT state_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT state_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.ireg 
-  ADD CONSTRAINT ireg_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT ireg_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.iare 
-  ADD CONSTRAINT iare_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT iare_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.iloc 
-  ADD CONSTRAINT iloc_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT iloc_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.gccsa 
-  ADD CONSTRAINT gccsa_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT gccsa_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.sa4 
-  ADD CONSTRAINT sa4_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT sa4_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.sa3 
-  ADD CONSTRAINT sa3_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT sa3_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.tr 
-  ADD CONSTRAINT tr_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT tr_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.sa2 
-  ADD CONSTRAINT sa2_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT sa2_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.add 
-  ADD CONSTRAINT add_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT add_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.ced 
-  ADD CONSTRAINT ced_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT ced_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.sed 
-  ADD CONSTRAINT sed_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT sed_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.nrmr 
-  ADD CONSTRAINT nrmr_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT nrmr_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.ssc 
-  ADD CONSTRAINT ssc_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT ssc_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.poa 
-  ADD CONSTRAINT poa_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT poa_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.lga 
-  ADD CONSTRAINT lga_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT lga_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.sa1 
-  ADD CONSTRAINT sa1_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT sa1_pkey UNIQUE (code);
 
 ALTER TABLE asgs_2011.mb 
-  ADD CONSTRAINT mb_pkey PRIMARY KEY (code);
+  ADD CONSTRAINT mb_pkey UNIQUE (code);
 
+-- Add integer primary key fields
+
+ALTER TABLE asgs_2011.state 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.ireg 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.iare 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.iloc 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.gccsa 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.sa4 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.sa3 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.tr 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.sa2 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.add 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.ced 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.sed 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.nrmr 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.ssc 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.poa 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.lga 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.sa1 
+  ADD fid serial PRIMARY KEY;
+
+ALTER TABLE asgs_2011.mb 
+  ADD fid serial PRIMARY KEY;
 
 -- Set foreign key constraints
 ALTER TABLE asgs_2011.ireg
