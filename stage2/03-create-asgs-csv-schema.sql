@@ -57,7 +57,7 @@ CHECK (
 
 CREATE DOMAIN asgs_2011.poa_code AS char(4)
 CHECK (
-  VALUE ~ '^\d{4}$'
+  VALUE ~ E'^\\d{4}$'
 );
 
 CREATE DOMAIN asgs_2011.ssc_code AS char(5)
