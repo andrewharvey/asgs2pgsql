@@ -8,10 +8,19 @@ mkdir -p "$asgs_dir/"
 #  1. Volume
 #  2. dataset name
 #  3. dataset access key
+#  4. date
+#  5. release date
+#  6. release string
+#  7. optional output dataset name
 function download {
   echo ""
   echo "Volume $1..."
-  wget --no-clobber -O "$asgs_dir/127005500${1}_$2" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6"
+  if [ -z "$7" ]
+    then
+      wget --no-clobber -O "$asgs_dir/127005500${1}_$2" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6"
+    else
+      wget --no-clobber -O "$asgs_dir/127005500${1}_$7" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6" 
+  fi
 }
 
 # The following download calls were mostly generated using the 99-make-download-calls.sh script
@@ -75,7 +84,7 @@ download 3 "ssc_2011_aust_csv.zip" "414A81A24C3049A8CA2578D40012D50C" "July 2011
 download 3 "ced_2011_aust_csv.zip" "F85EC44BA66E1AF8CA2578D40012D57B" "July 2011" "22.07.2011" "Previous"
 download 3 "sed_2011_aust_csv.zip" "D528608C024844C9CA2578D40012D5E0" "July 2011" "22.07.2011" "Previous"
 download 3 "nrmr_2011_aust_csv.zip" "3980F9D5AF92E81ECA2578D40012D63E" "July 2011" "22.07.2011" "Previous"
-download 3 "add_2011_aust_csv.zip" "C7BE5BBFEAB10D9DCA2578D40012D6A0" "July 2011" "22.07.2011" "Previous"
+download 3 "add_2011_aust.zip" "AE06FFEB1486E2C5CA2579F30011EADB" "July 2011" "04.05.2012" "Latest" "add_2011_aust_csv.zip"
 download 3 "tr_2011_aust_csv.zip" "38C408A89BBA0027CA2578D40012D70A" "July 2011" "22.07.2011" "Previous"
 download 3 "lga_2011_aust_shape.zip" "4A320EE17A293459CA257937000CC967" "July 2011" "31.10.2011" "Latest"
 download 3 "poa_2011_aust_shape.zip" "71B4572D909B934ECA2578D40012FE0D" "July 2011" "22.07.2011" "Previous"
