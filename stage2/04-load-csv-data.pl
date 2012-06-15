@@ -110,24 +110,24 @@ for my $src_table (@ordered_tables) {
   # we will get lots of duplicate lines, so we put them into a hash to drop the duplicates.
   my %inserts;
 
-  # prepare the insert statement
-  $sth = $dbh->prepare("INSERT INTO $schema$dst_table(" . join( ',', @dst_columns) . ") VALUES (" . prepare_n(scalar @dst_columns) . ");");
+  # put the dbh into COPY mode
+  $dbh->do("COPY $schema$dst_table(" . join( ',', @dst_columns) . ") FROM STDIN;");
 
-  # go through each line in the source csv file and create the INSERT statement
+  # go through each line in the source csv file and load the data
   while (my $row = $csv->getline($src_data)) {
     # test if in hash already if it is skip else load into psql and insert into hash
     my $hash_key = $dst_table . join( ',', @dst_columns ) . join( ',', cut($row, \@cut_columns));
 
     if (!exists $inserts{$hash_key}) {
-      #print "INSERT INTO $schema$dst_table(" . join( ', ', @dst_columns) . ") VALUES (\"" . join( '", "', cut($row, \@cut_columns)) . "\");\n";
-      $sth->execute(cut($row, \@cut_columns)) or die $!;
+      $dbh->pg_putcopydata(join("\t", cut($row, \@cut_columns))."\n");
 
       # insert into the hash so we skip it next time
       $inserts{$hash_key} = undef;
     }
   }
 
-  $dbh->commit or die $!;
+  # take the dbh out of COPY mode
+  $dbh->pg_putcopyend() or die $!;
 
   vacuum_analyze("$schema$dst_table");
 
