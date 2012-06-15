@@ -10,7 +10,6 @@ use Text::CSV;
 use DBI;
 
 sub cut($$);
-sub prepare_n($);
 sub vacuum_analyze($);
 
 my $schema = "asgs_2011.";
@@ -194,20 +193,6 @@ sub cut($$) {
   }
 
   return @new_columns;
-}
-
-sub prepare_n($) {
-  my ($n) = @_;
-  my $st = '';
-
-  return '' if ($n == 0);
-
-  for (my $i = 0; $i < ($n-1); $i++) {
-    $st = $st . '?,';
-  }
-
-  $st = $st . '?';
-  return $st
 }
 
 sub vacuum_analyze($) {
