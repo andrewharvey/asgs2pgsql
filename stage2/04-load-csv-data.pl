@@ -115,10 +115,11 @@ for my $src_table (@ordered_tables) {
   # go through each line in the source csv file and load the data
   while (my $row = $csv->getline($src_data)) {
     # test if in hash already if it is skip else load into psql and insert into hash
-    my $hash_key = $dst_table . join( ',', @dst_columns ) . join( ',', cut($row, \@cut_columns));
+    my @insert_values = cut($row, \@cut_columns);
+    my $hash_key = $dst_table . join( ',', @dst_columns ) . join( ',', @insert_values);
 
     if (!exists $inserts{$hash_key}) {
-      $dbh->pg_putcopydata(join("\t", cut($row, \@cut_columns))."\n");
+      $dbh->pg_putcopydata(join("\t", @insert_values)."\n");
 
       # insert into the hash so we skip it next time
       $inserts{$hash_key} = undef;
