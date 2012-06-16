@@ -181,20 +181,23 @@ $$ LANGUAGE SQL;
 -- Now create the tables
 --
 
-CREATE TABLE asgs_2011.state_csv
+-- They are created as UNLOGGED which speeds up loading data into them
+-- but they are not crash-safe.
+
+CREATE UNLOGGED TABLE asgs_2011.state_csv
 (
   "code" asgs_2011.state_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.ireg_csv
+CREATE UNLOGGED TABLE asgs_2011.ireg_csv
 (
   "code" asgs_2011.ireg_code PRIMARY KEY,
   "name" text,
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.iare_csv
+CREATE UNLOGGED TABLE asgs_2011.iare_csv
 (
   "code" asgs_2011.iare_code PRIMARY KEY,
   "name" text,
@@ -202,7 +205,7 @@ CREATE TABLE asgs_2011.iare_csv
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.iloc_csv
+CREATE UNLOGGED TABLE asgs_2011.iloc_csv
 (
   "code" asgs_2011.iloc_code PRIMARY KEY,
   "name" text,
@@ -211,14 +214,14 @@ CREATE TABLE asgs_2011.iloc_csv
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.gccsa_csv
+CREATE UNLOGGED TABLE asgs_2011.gccsa_csv
 (
   "code" asgs_2011.gccsa_code PRIMARY KEY,
   "name" text,
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.sa4_csv
+CREATE UNLOGGED TABLE asgs_2011.sa4_csv
 (
   "code" asgs_2011.sa4_code PRIMARY KEY,
   "name" text,
@@ -226,7 +229,7 @@ CREATE TABLE asgs_2011.sa4_csv
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.sa3_csv
+CREATE UNLOGGED TABLE asgs_2011.sa3_csv
 (
   "code" asgs_2011.sa3_code PRIMARY KEY,
   "name" text,
@@ -235,13 +238,13 @@ CREATE TABLE asgs_2011.sa3_csv
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.tr_csv
+CREATE UNLOGGED TABLE asgs_2011.tr_csv
 (
   "code" asgs_2011.tr_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.sa2_csv
+CREATE UNLOGGED TABLE asgs_2011.sa2_csv
 (
   "code" asgs_2011.sa2_code PRIMARY KEY,
   "name" text,
@@ -252,51 +255,51 @@ CREATE TABLE asgs_2011.sa2_csv
   "tr" asgs_2011.tr_code REFERENCES asgs_2011.tr_csv(code)
 );
 
-CREATE TABLE asgs_2011.add_csv
+CREATE UNLOGGED TABLE asgs_2011.add_csv
 (
   "code" asgs_2011.add_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.ced_csv
+CREATE UNLOGGED TABLE asgs_2011.ced_csv
 (
   "code" asgs_2011.ced_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.sed_csv
+CREATE UNLOGGED TABLE asgs_2011.sed_csv
 (
   "code" asgs_2011.sed_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.nrmr_csv
+CREATE UNLOGGED TABLE asgs_2011.nrmr_csv
 (
   "code" asgs_2011.nrmr_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.ssc_csv
+CREATE UNLOGGED TABLE asgs_2011.ssc_csv
 (
   "code" asgs_2011.ssc_code PRIMARY KEY,
   "name" text,
   "conf" text
 );
 
-CREATE TABLE asgs_2011.poa_csv
+CREATE UNLOGGED TABLE asgs_2011.poa_csv
 (
   "code" asgs_2011.poa_code PRIMARY KEY,
   "name" text
 );
 
-CREATE TABLE asgs_2011.lga_csv
+CREATE UNLOGGED TABLE asgs_2011.lga_csv
 (
   "code" asgs_2011.lga_code PRIMARY KEY,
   "name" text,
   "state" asgs_2011.state_code REFERENCES asgs_2011.state_csv(code)
 );
 
-CREATE TABLE asgs_2011.sa1_csv
+CREATE UNLOGGED TABLE asgs_2011.sa1_csv
 (
   "code" asgs_2011.sa1_code PRIMARY KEY,
   "sa2" asgs_2011.sa2_code REFERENCES asgs_2011.sa2_csv(code),
@@ -313,7 +316,7 @@ CREATE TABLE asgs_2011.sa1_csv
   "nrmr" asgs_2011.nrmr_code REFERENCES asgs_2011.nrmr_csv(code)
 );
 
-CREATE TABLE asgs_2011.mb_csv
+CREATE UNLOGGED TABLE asgs_2011.mb_csv
 (
   "code" asgs_2011.mb_code PRIMARY KEY,
   "cat" text,
