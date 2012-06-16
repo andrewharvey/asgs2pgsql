@@ -1,26 +1,29 @@
 # About
-This project is dedicated to providing the Australian Bureau of Statistics
+This project provides the Australian Bureau of Statistics
 [Australian Statistical Geography Standard](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\))
-(ASGS) in a PostgreSQL database.
+(ASGS) in a PostgreSQL database using the PostGIS extension to store the
+geospatial data.
 
-This is done by providing scripts to load the source data as provided by
-the ABS into PostgreSQL. I also provide a database dump of the loaded data.
+This project provides the scripts to load the source data as provided by
+the ABS into PostgreSQL (building from source) but also provides a
+database dump of the loaded data (using the pre-built package).
 
 The ASGS is published as a combination of non-spatial CSV files and
 spatial SHAPE files. Both of these files are used in this loader and
-combined together to form my (unofficial) ASGS PostgreSQL schema.
+combined together to form this (unofficial) ASGS PostgreSQL schema.
 
-You may also be interested in my corresponding [abs2pgsql loader scripts](https://github.com/andrewharvey/abs2pgsql)
-which will (soon) load the ABS 2011 Census of Population and Housing into
+You may also be interested in the corresponding [abs2pgsql loader scripts](https://github.com/andrewharvey/abs2pgsql)
+which will load the ABS 2011 Census of Population and Housing into
 PostgreSQL, making use of this ASGS schema to provide the geographic
 standard to those statistics.
 
 # About the ASGS
-The ASGS consists of two parts called the ABS Structures and Non-ABS
+The ASGS consists of around 22 individual structures which are classified into ABS Structures and Non-ABS
 Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%20Structure%20and%20Summary.pdf).
 
-The 2011 release of the ASGS consists of Volumes 1-5. Only Volumes 1-3
-have been released and as such these scripts just process volumes 1-3.
+The 2011 release of the ASGS consists of Volumes 1-5. Volumes 4 and 5
+have not yet been released and as such these scripts just process volumes
+1-3.
 
 * Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas ([documentation](http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055001_july%202011.pdf&1270.0.55.001&Publication&D3DC26F35A8AF579CA257801000DCD7D&&July%202011&23.12.2010&Latest))
 * Volume 2 - 1270.0.55.002 consists of the Indigenous Structure ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055002_july%202011.pdf&1270.0.55.002&Publication&FE2D2D707996F20ACA25791000152669&&July%202011&20.09.2011&Previous))
@@ -31,15 +34,48 @@ have been released and as such these scripts just process volumes 1-3.
 The ABS Structures (vol 1, 2, 4, 5) will not change until the next Census
 in 2016, however the Non-ABS Structures (vol 3) will be updated annually.
 
-For now I load all the volumes into the asgs_2011 schema, although I will
-need to rethink this to address the annual updates and census updates.
+For now the scripts load all the volumes into the asgs_2011 schema,
+although in the future this will need a rethink to address the annual
+updates and 5 year census updates.
 
-In the future I may alter the schema with respect to the full codes. For
-example SA1's are unique with respect to their 11 digit code. However
-that 11 digit code is made up of S/T . SA4 . SA4 . SA3 . SA2 . SA1.
-Currently I store a materialised 11 digit SA1 code but really we could
-store only the materialised individual codes, and use a function or view
-to provide the 11 digit code without materialising it.
+## About the target schema
+The target PostgreSQL schema which stores the ASGS aims to be true to and
+consistent with the standard, however there is still room for flexibility
+and there are many different ways you could structure the target schema.
+
+### Versioning and Stable Releases
+The current schema isn't fixed and I'm happy to make modifications if
+there are valid reasons. You may consider the current state of the schema
+an RC release. It can and may change. I hope to release stable versions
+of this loader and the dumps with a release version, but as of yet no
+stable release has been made. If significant architectural changes are
+made to the schema I will ensure I at least tag the current state before
+moving direction.
+
+### PostGIS Topology support
+One future direction is to use [PostGIS Topology](http://www.postgis.org/documentation/manual-svn/Topology.html)
+support. As all of the ASGS structures are built up from Mesh Blocks we
+could elegantly model the ASGS as PostGIS topologies built up as
+aggregates of the Mesh Blocks.
+
+### Current Schema
+#### Codes
+Primary key codes for the ASGS structures are generally made unique by
+concatenating the code with a the code of the parent structure which it
+was built from. For example the S/T structure is built up from the SA4
+structure. That is S/T's are built up from one or more SA4's.
+
+This means that the unique code for SA4's is only unique within its S/T,
+so to obtain a globally unique code for that SA4 you need to prepend the
+S/T code.
+
+So for example SA1's are unique with respect to their 11 digit code.
+However that 11 digit code is made up of S/T . SA4 . SA4 . SA3 . SA2 . SA1.
+
+Currently the schema will store the materialised 11 digit SA1 code. A
+potential modification to the schema could store only the 2 digit SA1
+code and rely on an accompanying SA2 foreign key to provide the globally
+unique primary key.
 
 # Copyright
 The ABS ASGS data is Copyright (c) Commonwealth of Australia and as per 
