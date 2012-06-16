@@ -5,6 +5,18 @@
 # rights to this work.
 # http://creativecommons.org/publicdomain/zero/1.0/
 
+# Configuration
+
+# Target coordinate to use for the geospatial data in PostgreSQL. The
+# source data will be reprojected if required. Use one of the following:
+# 1. No reprojection
+#t_srs=
+# 2. GDA94 LL (no reprojection needed as source files are in this already)
+t_srs="EPSG:4283"
+# 2. Spherical Mercator (OSM/Google Maps web tiles)
+#t_srs="EPSG:3857"
+# 3. GDA94 / Australian Albers coordinate system
+#t_srs="EPSG:3577"
 
 all : clean load
 
@@ -26,10 +38,8 @@ load :
 	
 	# load geometries into _ogr tables from the SHAPE files
 	# the schema mapping is controlled by the shp2pgsql.map file
-	# by default the geometries are loaded into PostGIS using the same
-	# coordinate system as the source shape files. If you would prefer the OSM
-	# Slippy Map coordinate system (EPSG:3857) add the -use_osm_coordsys option
-	./stage2/05-load-geom.pl -use_osm_coordsys < shp2pgsql.map
+	# t_srs is passed as an argument which can specify the target coordinate system
+	./stage2/05-load-geom.pl $t_srs < shp2pgsql.map
 	
 	# by now we have the csv data in the _csv tables and shp file data in _ogr
 	# tables. We then use the 06 script generated from 05 to correct column

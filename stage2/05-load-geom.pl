@@ -27,10 +27,13 @@ my %ogr_tables_loaded_this_session;
 
 my %sql_generated_tables_this_session;
 
-my $transform_to_osm_coordsys = "no";
-if ((@ARGV > 0) && ($ARGV[0] eq "-use_osm_coordsys")) {
-  $transform_to_osm_coordsys = "yes";
-  print "Reprojecting shape files to the OSM Slippy Map Coordinate System - EPSG:3857\n";
+# optionally set the coordinate system to transform geometry into the loading
+# an empty string means don't transform, rather leave in same coordsys as source shape file
+my $t_srs = "";
+
+if ((@ARGV >= 2) && ($ARGV[0] eq "-t_srs")) {
+  $t_srs = "-t_srs '" . $ARGV[1] . "'";
+  print "Reprojecting shape files to " . $ARGV[1] . "\n";
 }
 
 while (<STDIN>) {
@@ -96,12 +99,6 @@ for my $src_table (@ordered_tables) {
   my $psql_update_method = "-overwrite";
   if (exists $ogr_tables_loaded_this_session{$dst_table}) {
     $psql_update_method = "-update -append";
-  }
-
-  # transform geometry to the OSM projection when loading geometry
-  my $t_srs = ""; # empty string means don't transform, rather leave in same coordsys as source shape file
-  if ($transform_to_osm_coordsys eq "yes") {
-    $t_srs = "-t_srs 'EPSG:3785'";
   }
 
   my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file`;

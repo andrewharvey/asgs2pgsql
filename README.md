@@ -1,5 +1,4 @@
-About
-=======
+# About
 This project is dedicated to providing the Australian Bureau of Statistics
 [Australian Statistical Geography Standard](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\))
 (ASGS) in a PostgreSQL database.
@@ -16,8 +15,7 @@ which will (soon) load the ABS 2011 Census of Population and Housing into
 PostgreSQL, making use of this ASGS schema to provide the geographic
 standard to those statistics.
 
-About the ASGS
-=======
+# About the ASGS
 The ASGS consists of two parts called the ABS Structures and Non-ABS
 Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%20Structure%20and%20Summary.pdf).
 
@@ -43,8 +41,7 @@ Currently I store a materialised 11 digit SA1 code but really we could
 store only the materialised individual codes, and use a function or view
 to provide the 11 digit code without materialising it.
 
-Copyright
-=======
+# Copyright
 The ABS ASGS data is Copyright (c) Commonwealth of Australia and as per 
 http://www.abs.gov.au/websitedbs/D3310114.nsf/Home/©+Copyright?opendocument
 it is released under the [Creative Commons Attribution 2.5 Australia license](http://creativecommons.org/licenses/by/2.5/au/).
@@ -62,14 +59,12 @@ CC0 license.
     rights to this work.
     http://creativecommons.org/publicdomain/zero/1.0/
 
-Before You Start
-=======
+# Before You Start
 Running these scripts is akin to building software from source. If you just
 want a copy of the database without needing to "build" it from source skip to
 the [last section of this README](#prebuilt_dump).
 
-Requirements
-=======
+# Requirements
 Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
   postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
 
@@ -90,10 +85,8 @@ without authentication.
 You could substitute trust with ident if you create the user `abs` on your
 system and run these scripts as that user.
 
-Running the Scripts
-===================
-Setting up the database environment
--------------------------------------
+# Running the Scripts
+## Setting up the database environment
 First you need to set up and export some PG environment variables otherwise the
 PostgreSQL defaults will be used. For example,
 
@@ -117,8 +110,7 @@ database and PostGIS extensions on Debian using (replacing YOUR_DB and YOUR_DB_U
 
 Once that is set up, the rest of the process is as follows.
 
-Stage 1: Downloading the source ASGS data
--------------------------------------
+## Stage 1: Downloading the source ASGS data
 Currently the download parameters are hard configured within
 `01-download-asgs.sh`. These were created using the script
 `00-make-download-code.sh`. I'm still not sure if this is the best approach or
@@ -134,27 +126,53 @@ If this step has been broken due to a change on the abs.gov.au web server
 results after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
 Just download this directory then run 02-unzip-asgs.sh.
 
-Stage 2: Loading the ASGS data into the database schema
--------------------------------------
+## Stage 2: Loading the ASGS data into the database schema
 This stage assumes you have the 02-ASGS-UNZIP directory from stage 1. With this
 just run,
 
     make
 
-By default the geometries are loaded into PostGIS using the OSM Slippy Map
-coordinate system (EPSG:3857) (by using the -use_osm_coordsys option when 
-calling ./stage2/05-load-geom.pl from the Makefile). To use the same coordinate
-system as the source shape files, remove this option.
+### Coordinate Systems
+When you load geographic data into PostgreSQL using the PostGIS extension
+you must define the coordinate system of that data. The coordinate system
+you should use depends on what you are most likely to use the data for.
 
-Stage 3: Materialised Pyramids of Generalised Geometries (Optional)
--------------------------------------
+For instance if you are going to be rendering web maps from the data it
+would make sense to store the data in PostGIS as the
+[EPSG:900913](http://wiki.openstreetmap.org/wiki/EPSG:3857) coordinate
+system.
+
+If you want to do lots of analysis and calculations based on the areas of
+the regions it makes sense to load the data in the GDA94 / Australian
+Albers coordinate system ([EPSG:3577](http://spatialreference.org/ref/epsg/3577/))
+as that will give you the best area values. If you don't have any
+specific need it would be fine to leave it in the same coordinate system
+as the original shape files, unprojected lat longs in the GDA94 datum.
+
+I have deliberated over which coordinate system should be the default,
+but have ultimately decided to respect the ASGS standard and use the same
+coordinate system as the source data from the ABS.
+
+I present the common alternatives as user options. Though there are
+problems with supporting many different configurations including different
+pg_dumps need to be generated, the options add confusion to non-experts,
+makes it harder for other applications to rely on the one standard ASGS
+PostgreSQL schema if there are several different versions.
+
+You can always do on the fly re-projection in PostGIS but quite often you
+will want to load the data in the coordinate system you wish to use it in
+to avoid performance issues associated with on the fly re-projection.
+
+To switch the coordinate system which we load the data into check out the
+configuration section at the top of the `Makefile`.
+
+## Stage 3: Materialised Pyramids of Generalised Geometries (Optional)
 You can optionally produce materialised pyramid tables of the generalised
 geometries,
 
     make generalization_pyramid
 
-Producing PG Dump files
-=======
+# Producing PG Dump files
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
