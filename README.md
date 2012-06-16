@@ -208,6 +208,12 @@ geometries,
 
     make generalization_pyramid
 
+This step requires that you have loaded the EPSG 3577 : GDA94 / Australian Albers
+coordinate system into your spatial_ref_sys table using the definition
+found in the spatial_ref_sys.sql file. You can do this by running,
+
+    psql -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+
 # PG Dump
 ## Producing a new db dump
 Once everything has been loaded into PostgreSQL using these scripts you can
