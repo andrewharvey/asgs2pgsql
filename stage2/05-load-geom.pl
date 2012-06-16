@@ -105,8 +105,9 @@ for my $src_table (@ordered_tables) {
 
   # now run ogr2ogr to load the data
   # this makes up >99.99% of this scripts execution
+  # PG_USE_COPY uses COPY rather than INSERTS which are much faster
   # we don't need a spatial index as we make one later on the final joined table
-  my $ogr_ret = `ogr2ogr $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file $ogr_lco`;
+  my $ogr_ret = `ogr2ogr --config PG_USE_COPY YES $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file $ogr_lco`;
   $ogr_tables_loaded_this_session{$dst_table} = "yes";
   die "Problem occured using ogr2ogr to load SHAPE file\n" if ($ogr_ret = undef);
 
