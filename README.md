@@ -98,7 +98,7 @@ CC0 license.
 # Before You Start
 Running these scripts is akin to building software from source. If you just
 want a copy of the database without needing to "build" it from source skip to
-the [last section of this README](#prebuilt_dump).
+the [last section of this README](#loading-an-existing-db-dump).
 
 # Requirements
 Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
@@ -208,16 +208,17 @@ geometries,
 
     make generalization_pyramid
 
-# Producing PG Dump files
+# PG Dump
+## Producing a new db dump
 Once everything has been loaded into PostgreSQL using these scripts you can
 create a PostgreSQL dump file using,
 
     pg_dump --format plain --schema "asgs_2011" --no-owner | xz > asgs_2011.sql.xz
 
-<a id="prebuilt_dump"/>
+## Loading an existing db dump
 I host a copy of this file at http://tianjara.net/data/asgs2pgsql/. After
-creating the abs user and database (with the PostGIS extensions) as described
-in the [first chunk of code under the Running the Scripts section](#createdb),
+setting your PG* environment variables and creating a database (with the
+PostGIS extensions loaded) as described [above](#setting-up-the-database-environment),
 you can load the database dump using,
 
     xzcat asgs_2011.sql.xz | psql -f -
