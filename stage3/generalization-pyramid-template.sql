@@ -2,20 +2,18 @@
 CREATE TABLE asgs_2011.$table_pyramid
 (
   "code" asgs_2011.$table_code PRIMARY KEY REFERENCES asgs_2011.$table(code),
-  "name" text,
   "area" double precision
 );
 
 -- use the PostGIS function to add geometry column
-SELECT AddGeometryColumn( 'asgs_2011', '$table_pyramid', 'geom_$gen', 900913, 'GEOMETRY', 2);
+SELECT AddGeometryColumn( 'asgs_2011', '$table_pyramid', 'geom_$gen', (SELECT srid FROM geometry_columns WHERE f_table_schema = 'asgs_2011' AND f_table_name = '$table'), 'GEOMETRY', 2);
 
 -- populate the new table
 INSERT INTO asgs_2011.$table_pyramid (
   SELECT
     code,
-    name,
     ST_Area(ST_Transform(geom,3577)) as area,
-    ST_SetSRID(ST_SimplifyPreserveTopology(geom, $gen),900913) as geom_$gen,
+    ST_SimplifyPreserveTopology(geom, $gen) as geom_$gen,
   FROM asgs_2011.$table
 );
 

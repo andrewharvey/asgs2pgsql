@@ -20,27 +20,17 @@ do
   echo "$s";
   cp $cwd/generalization-pyramid-template.sql $cwd/gen-pyramid-staging0.sql
 
-  if [ "$s" == 'mb' ] ; then
-    # mb has cat rather than name
-    sed "s/name/cat/g" < $cwd/gen-pyramid-staging0.sql > $cwd/gen-pyramid-staging1.sql
-  elif [ "$s" == 'sa1' ] ; then
-    # sa1 has no name
-    grep -v 'name' < $cwd/gen-pyramid-staging0.sql > $cwd/gen-pyramid-staging1.sql
-  else
-    cp $cwd/gen-pyramid-staging0.sql $cwd/gen-pyramid-staging1.sql
-  fi
-
   # replace "$table" from template SQL
-  sed -i "s/\$table/$s/g" $cwd/gen-pyramid-staging1.sql
+  sed -i "s/\$table/$s/g" $cwd/gen-pyramid-staging0.sql
 
   # replace "$gen" from template SQL
-  $cwd/expand-dollar-gen.pl $generalisation_tolerances < $cwd/gen-pyramid-staging1.sql > $cwd/gen-pyramid-staging2.sql;
+  $cwd/expand-dollar-gen.pl $generalisation_tolerances < $cwd/gen-pyramid-staging0.sql > $cwd/gen-pyramid-staging1.sql;
 
   # because the expand dollar duplicates lines. the last column in the select will need its trailing comma removed
   # syntax from http://stackoverflow.com/a/1252191 (Zsolt Botykai)
-  sed -i ':a;N;$!ba;s/,\n  FROM/\n  FROM/g' $cwd/gen-pyramid-staging2.sql
+  sed -i ':a;N;$!ba;s/,\n  FROM/\n  FROM/g' $cwd/gen-pyramid-staging1.sql
 
-  psql -f $cwd/gen-pyramid-staging2.sql
+  psql -f $cwd/gen-pyramid-staging1.sql
   rm -f $cwd/gen-pyramid-staging*
 
   echo "DROP TABLE asgs_2011.${s}_pyramid CASCADE;" >> $cwd/drop-generalization-pyramid.sql
