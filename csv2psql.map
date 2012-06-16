@@ -97,10 +97,9 @@
 1 MB_2011_*.GCCSA_CODE_2011 mb.gccsa
 1 MB_2011_*.STATE_CODE_2011 mb.state
 
-# Many of the Volume 3 datasets can be linked to an SA1 since they have an SA1
-# attribute for each primary key of that volume 3 dataset. We have allowed for
-# this in the schema and the following lines will add the foreign keys to the
-# SA1 table.
+# Many of the Volume 3 datasets can be linked to a Volume 1 dataset. We
+# have allowed for this in the schema and the following lines will add
+# the foreign keys to the volume 1 dataset tables.
 
 LINK 2 Indigenous_Structure_Allocation_2011.SA1_MAINCODE_2011 sa1.code Indigenous_Structure_Allocation_2011.ILOC_CODE_2011 sa1.iloc
 LINK 3 POA_2011_AUST.SA1_MAINCODE_2011 sa1.code POA_2011_AUST.POA_CODE_2011 sa1.poa
@@ -109,3 +108,5 @@ LINK 3 CED_2011_AUST.SA1_MAINCODE_2011 sa1.code CED_2011_AUST.CED_CODE_2011 sa1.
 LINK 3 SED_2011_AUST.SA1_MAINCODE_2011 sa1.code SED_2011_AUST.SED_CODE_2011 sa1.sed
 LINK 3 ADD_2011_AUST.SA1_MAINCODE_2011 sa1.code ADD_2011_AUST.ADD_CODE_2011 sa1.add
 LINK 3 NRMR_2011_AUST.SA1_MAINCODE_2011 sa1.code NRMR_2011_AUST.NRMR_CODE_2011 sa1.nrmr
+LINK 3 TR_2011_AUST.SA2_MAINCODE_2011 sa2.code TR_2011_AUST.TR_Code_2011 sa2.tr
+LINK 3 LGA_2011_*.MB_CODE_2011 mb.code LGA_2011_*.LGA_CODE_2011 mb.lga

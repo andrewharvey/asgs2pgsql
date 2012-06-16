@@ -28,7 +28,33 @@ while (<STDIN>) {
   next if /^\s*$/;
 
   if (/^LINK\s(.*)/i) {
-    push @links, $1;
+    my $link_line = $1;
+
+    # value should match:
+    # 2 Indigenous_Structure_Allocation_2011.SA1_MAINCODE_2011 sa1.code Indigenous_Structure_Allocation_2011.ILOC_CODE_2011 sa1.iloc
+    if ($link_line =~ /^(\d)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)\s\2\.([^\s]*)\s\4\.([^\s]*)/) {
+      my $volume = $1;
+      my $src_table = $2;
+      my $csv_sa1_attribute = $3;
+      my $db_sa1_table = "$4" . "_csv";
+      my $db_sa1_attribute = $5;
+      my $csv_link_attribute = $6;
+      my $db_link_attribute = $7;
+
+      if ($link_line =~ /\*/) { # wildcard character exists, expand it out
+        my @glob = glob "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/";
+        for my $g (@glob) {
+          if ($g =~ /\/[0-9]*_(.*)_csv/) {
+            my $expanded_src_table = $1;
+            push @links, [$volume, $expanded_src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
+          }
+        }
+      }else{
+        push @links, [$volume, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
+      }
+    }else{
+      print STDERR "Parse Error: LINK string in unexpected format: $link_line\n";
+    }
   }elsif (/([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.(.*)/) {
     my $volume = $1;
     my $src_table = $2;
@@ -136,51 +162,39 @@ for my $src_table (@ordered_tables) {
 
 # run through LINK load scripts
 for my $link (@links) {
-  # value should match:
-  # 2 Indigenous_Structure_Allocation_2011.SA1_MAINCODE_2011 sa1.code Indigenous_Structure_Allocation_2011.ILOC_CODE_2011 sa1.iloc
-  if ($link =~ /^(\d)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)\s\2\.([^\s]*)\s\4\.([^\s]*)/) {
-    my $volume = $1;
-    my $src_table = $2;
-    my $csv_sa1_attribute = $3;
-    my $db_sa1_table = "$4" . "_csv";
-    my $db_sa1_attribute = $5;
-    my $csv_link_attribute = $6;
-    my $db_link_attribute = $7;
+  my ($volume, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute) = @{$link};
 
-    print "-- LINK $db_sa1_table.$db_link_attribute  ...\n";
+  print "-- LINK $db_sa1_table.$db_link_attribute  ...\n";
 
-    # open the source csv file for reading
-    my $csv = Text::CSV->new();
-    my $src_data;
-    if ($src_table eq "Indigenous_Structure_Allocation_2011") {
-      open ($src_data, '<', "$asgs_unzip_dir/127005500${volume}_${src_table}/${src_table}.csv") or die $!;
-    } else {
-      open ($src_data, '<', "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/".uc (${src_table}).".csv") or die $!;
-    }
-
-    my $header = $csv->getline($src_data);
-    $csv->column_names ($header);
-    # test key columns are actually in header
-    for my $c ($csv_sa1_attribute,$csv_link_attribute) {
-      die "ERROR: $c does not appear in $src_table.csv\n" if (scalar (grep (/^$c$/, @{$header})) < 1);
-    }
-
-    # prepare the insert statement
-    $sth = $dbh->prepare("UPDATE $schema$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
-
-    # go through each line in the source csv file and execute the UPDATE statement
-    while (my $row = $csv->getline_hr($src_data)) {
-      $sth->execute($row->{$csv_link_attribute}, $row->{$csv_sa1_attribute}) or die $!;
-    }
-
-    $dbh->commit or die $!;
-
-    vacuum_analyze("$schema$db_sa1_table");
-
-    close $src_data or warn $!;
-  }else{
-    print STDERR "Parse Error: LINK string in unexpected format.\n";
+  # open the source csv file for reading
+  my $csv = Text::CSV->new();
+  my $src_data;
+  if ($src_table eq "Indigenous_Structure_Allocation_2011") {
+    open ($src_data, '<', "$asgs_unzip_dir/127005500${volume}_${src_table}/${src_table}.csv") or die $!;
+  } else {
+    open ($src_data, '<', "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/".uc (${src_table}).".csv") or die $!;
   }
+
+  my $header = $csv->getline($src_data);
+  $csv->column_names ($header);
+  # test key columns are actually in header
+  for my $c ($csv_sa1_attribute,$csv_link_attribute) {
+    die "ERROR: $c does not appear in $src_table.csv\n" if (scalar (grep (/^$c$/, @{$header})) < 1);
+  }
+
+  # prepare the insert statement
+  $sth = $dbh->prepare("UPDATE $schema$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
+
+  # go through each line in the source csv file and execute the UPDATE statement
+  while (my $row = $csv->getline_hr($src_data)) {
+    $sth->execute($row->{$csv_link_attribute}, $row->{$csv_sa1_attribute}) or die $!;
+  }
+
+  $dbh->commit or die $!;
+
+  vacuum_analyze("$schema$db_sa1_table");
+
+  close $src_data or warn $!;
 }
 
 $dbh->disconnect or warn $!;
