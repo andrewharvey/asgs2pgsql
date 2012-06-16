@@ -106,6 +106,34 @@ CHECK (
 );
 
 
+CREATE TYPE asgs_2011.landuse AS ENUM (
+  'Residential',
+  'Education',
+  'Industrial',
+  'Transport',
+  'Other',
+  'OFFSHORE',
+  'NOUSUALRESIDENCE',
+  'Parkland',
+  'Hospital/Medical',
+  'Water',
+  'SHIPPING',
+  'ANTARCTICA',
+  'Agricultural',
+  'Commercial',
+  'MIGRATORY'
+);
+
+CREATE TYPE asgs_2011.ssc_confidence AS ENUM (
+  'Very good',
+  'Good',
+  'Acceptable',
+  'Poor',
+  'Very poor',
+  'NA'
+);
+
+
 
 --
 -- Create functions to extract higher level codes from the code of lower level codes
@@ -283,7 +311,7 @@ CREATE UNLOGGED TABLE asgs_2011.ssc_csv
 (
   "code" asgs_2011.ssc_code PRIMARY KEY,
   "name" text,
-  "conf" text
+  "confidence" asgs_2011.ssc_confidence
 );
 
 CREATE UNLOGGED TABLE asgs_2011.poa_csv
@@ -319,7 +347,7 @@ CREATE UNLOGGED TABLE asgs_2011.sa1_csv
 CREATE UNLOGGED TABLE asgs_2011.mb_csv
 (
   "code" asgs_2011.mb_code PRIMARY KEY,
-  "cat" text,
+  "category" asgs_2011.landuse,
   "sa1" asgs_2011.sa1_code REFERENCES asgs_2011.sa1_csv(code),
   "sa2" asgs_2011.sa2_code REFERENCES asgs_2011.sa2_csv(code),
   "sa3" asgs_2011.sa3_code REFERENCES asgs_2011.sa3_csv(code),
