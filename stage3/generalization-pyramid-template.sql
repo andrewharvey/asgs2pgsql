@@ -3,7 +3,7 @@ CREATE TABLE asgs_2011.$table_pyramid
 (
   "code" asgs_2011.$table_code PRIMARY KEY REFERENCES asgs_2011.$table(code),
   "area" double precision
-);
+) WITH OIDS;
 
 -- use the PostGIS function to add geometry column
 SELECT AddGeometryColumn( 'asgs_2011', '$table_pyramid', 'geom_$gen', (SELECT srid FROM geometry_columns WHERE f_table_schema = 'asgs_2011' AND f_table_name = '$table'), 'GEOMETRY', 2);
