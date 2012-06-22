@@ -5,7 +5,7 @@
 CREATE OR REPLACE FUNCTION asgs_2011.match_abs_structure_code(code character varying(11)) RETURNS text AS $$
 BEGIN
   IF code ~ E'^\\d$' THEN
-      return 'state';
+      return 'ste';
 
   ELSIF code ~ E'^\\d{3}$' THEN
       return 'sa4';

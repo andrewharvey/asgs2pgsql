@@ -8,9 +8,9 @@
 -- http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+%28ASGS%29
 
 
-CREATE TABLE asgs_2011.state AS (
+CREATE TABLE asgs_2011.ste AS (
   SELECT csv.*, ogr.wkb_geometry as geom
-  FROM asgs_2011.state_csv csv LEFT JOIN asgs_2011.state_ogr ogr USING (code)
+  FROM asgs_2011.ste_csv csv LEFT JOIN asgs_2011.ste_ogr ogr USING (code)
 );
 
 CREATE TABLE asgs_2011.ireg AS (
@@ -101,8 +101,8 @@ CREATE TABLE asgs_2011.mb AS (
 
 -- Set primary key constraints
 
-ALTER TABLE asgs_2011.state
-  ADD CONSTRAINT state_pkey PRIMARY KEY (code),
+ALTER TABLE asgs_2011.ste
+  ADD CONSTRAINT ste_pkey PRIMARY KEY (code),
   SET WITH OIDS;
 
 ALTER TABLE asgs_2011.ireg
@@ -176,8 +176,8 @@ ALTER TABLE asgs_2011.mb
 
 -- Set foreign key constraints
 ALTER TABLE asgs_2011.ireg
-  ADD CONSTRAINT ireg_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT ireg_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -185,8 +185,8 @@ ALTER TABLE asgs_2011.iare
   ADD CONSTRAINT iare_ireg_fkey FOREIGN KEY (ireg)
     REFERENCES asgs_2011.ireg (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT iare_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT iare_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -197,14 +197,14 @@ ALTER TABLE asgs_2011.iloc
   ADD CONSTRAINT iloc_ireg_fkey FOREIGN KEY (ireg)
     REFERENCES asgs_2011.ireg (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT iloc_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT iloc_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
 ALTER TABLE asgs_2011.gccsa
-  ADD CONSTRAINT gccsa_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT gccsa_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -212,8 +212,8 @@ ALTER TABLE asgs_2011.sa4
   ADD CONSTRAINT sa4_gccsa_fkey FOREIGN KEY (gccsa)
     REFERENCES asgs_2011.gccsa (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT sa4_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT sa4_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -224,8 +224,8 @@ ALTER TABLE asgs_2011.sa3
   ADD CONSTRAINT sa3_gccsa_fkey FOREIGN KEY (gccsa)
     REFERENCES asgs_2011.gccsa (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT sa3_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT sa3_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -239,16 +239,16 @@ ALTER TABLE asgs_2011.sa2
   ADD CONSTRAINT sa2_gccsa_fkey FOREIGN KEY (gccsa)
     REFERENCES asgs_2011.gccsa (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT sa2_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT sa2_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   ADD CONSTRAINT sa2_tr_fkey FOREIGN KEY (tr)
     REFERENCES asgs_2011.tr (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE asgs_2011.lga
-  ADD CONSTRAINT lga_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT lga_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE asgs_2011.sa1
@@ -264,8 +264,8 @@ ALTER TABLE asgs_2011.sa1
   ADD CONSTRAINT sa1_gccsa_fkey FOREIGN KEY (gccsa)
     REFERENCES asgs_2011.gccsa (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT sa1_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT sa1_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   ADD CONSTRAINT sa1_iloc_fkey FOREIGN KEY (iloc)
     REFERENCES asgs_2011.iloc (code) MATCH SIMPLE
@@ -306,8 +306,8 @@ ALTER TABLE asgs_2011.mb
   ADD CONSTRAINT mb_gccsa_fkey FOREIGN KEY (gccsa)
     REFERENCES asgs_2011.gccsa (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
-  ADD CONSTRAINT mb_state_fkey FOREIGN KEY (state)
-    REFERENCES asgs_2011.state (code) MATCH SIMPLE
+  ADD CONSTRAINT mb_ste_fkey FOREIGN KEY (ste)
+    REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   ADD CONSTRAINT mb_lga_fkey FOREIGN KEY (lga)
     REFERENCES asgs_2011.lga (code) MATCH SIMPLE
@@ -347,8 +347,8 @@ CREATE INDEX gccsa_geom_idx
   USING gist
   (geom);
 
-CREATE INDEX state_geom_idx
-  ON asgs_2011.state
+CREATE INDEX ste_geom_idx
+  ON asgs_2011.ste
   USING gist
   (geom);
 

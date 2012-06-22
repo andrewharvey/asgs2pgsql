@@ -15,7 +15,7 @@ echo "-- drop all tables which are part of the generalization pyramid" > $cwd/dr
 # pull the list of generalisation tolerances to use from the program arguments
 generalisation_tolerances=$@
 
-for s in mb sa1 sa2 sa3 sa4 gccsa state iloc iare ireg tr poa ssc ced sed add nrmr lga
+for s in mb sa1 sa2 sa3 sa4 gccsa ste iloc iare ireg tr poa ssc ced sed add nrmr lga
 do
   echo "$s";
   cp $cwd/generalization-pyramid-template.sql $cwd/gen-pyramid-staging0.sql
