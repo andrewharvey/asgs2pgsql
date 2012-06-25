@@ -45,6 +45,11 @@ CHECK (
   VALUE ~ E'^\\d{11}$'
 );
 
+CREATE DOMAIN asgs_2011.sa1_code_7digit AS char(7)
+CHECK (
+  VALUE ~ E'^\\d{7}$'
+);
+
 CREATE DOMAIN asgs_2011.mb_code AS char(11)
 CHECK (
   VALUE ~ E'^\\d{11}$'
