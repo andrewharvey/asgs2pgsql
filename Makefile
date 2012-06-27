@@ -29,6 +29,9 @@ download :
 	./02-unzip-asgs.sh
 
 load :
+	# checking source ASGS data exists...
+	test -d 02-ASGS-UNZIP
+	
 	# create the database schema and _csv tables
 	psql -f stage2/03-create-asgs-csv-schema.sql
 	
