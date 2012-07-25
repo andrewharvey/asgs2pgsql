@@ -42,7 +42,7 @@ load :
 	# load geometries into _ogr tables from the SHAPE files
 	# the schema mapping is controlled by the shp2pgsql.map file
 	# t_srs is passed as an argument which can specify the target coordinate system
-	./stage2/05-load-geom.pl $t_srs < shp2pgsql.map
+	./stage2/05-load-geom.pl -t_srs ${t_srs} < shp2pgsql.map
 	
 	# by now we have the csv data in the _csv tables and shp file data in _ogr
 	# tables. We then use the 06 script generated from 05 to correct column
