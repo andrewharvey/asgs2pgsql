@@ -97,6 +97,14 @@ download 3 "tr_2011_aust_shape.zip" "7140033784CE5EAFCA2578D4001383F7" "July 201
 
 # ASGS Volume 4
 # ABS Publication: 1270.0.55.004
+download 4 "sua_2011_aust_csv.zip" "CBAC735918B75C85CA257A9800139B45" "July 2011" "16.10.2012" "Latest"
+download 4 "sa2_sua_2011_aust_csv.zip" "87578110AA869B71CA257A9800139DAC" "July 2011" "16.10.2012" "Latest"
+download 4 "ucl_2011_aust_csv.zip" "28A76D426FCA5859CA257A9800139DD1" "July 2011" "16.10.2012" "Latest"
+download 4 "sa1_ucl_sosr_sos_2011_aust_csv.zip" "C52313843E4B9D3BCA257A9800139DF3" "July 2011" "16.10.2012" "Latest"
+download 4 "sua_2011_aust_shape.zip" "704255912D2C4DC4CA257A9800149AD0" "July 2011" "16.10.2012" "Latest"
+download 4 "ucl_2011_aust_shape.zip" "52B516A3309048CBCA257A980013A96D" "July 2011" "16.10.2012" "Latest"
+download 4 "sosr_2011_aust_shape.zip" "037E310AB1A6E0CDCA257A980013BA66" "July 2011" "16.10.2012" "Latest"
+download 4 "sos_2011_aust_shape.zip" "09598BD74AC10B0CCA257A980013CAD8" "July 2011" "16.10.2012" "Latest"
 
 # ASGS Volume 5
 # ABS Publication: 1270.0.55.005
