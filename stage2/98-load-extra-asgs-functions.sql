@@ -74,3 +74,32 @@ BEGIN
   END CASE;
 END
 $$ LANGUAGE plpgsql;
+
+-- For a given ASGS_2011.UCL name return a string indicating if this is a locality or urban centre
+CREATE OR REPLACE FUNCTION asgs_2011.ucl_type(name text) RETURNS text AS $$
+BEGIN
+  IF name ~ E'\\((L)\\)$' THEN
+    return 'locality';
+  ELSE
+    return 'urban centre';
+  END IF;
+END
+$$ LANGUAGE plpgsql;
+
+-- From the SOS Identifier give the Identifier name
+CREATE FUNCTION asgs_2011.sos_identifier_name(identifier char(1)) RETURNS text AS $$
+BEGIN
+  CASE identifier
+    WHEN '0' THEN
+      return 'Major Urban';
+    WHEN '1' THEN
+      return 'Other Urban';
+    WHEN '2' THEN
+      return 'Bounded Locality';
+    WHEN '3' THEN
+      return 'Rural Balance';
+    ELSE
+      return null;
+  END CASE;
+END
+$$ LANGUAGE plpgsql;

@@ -110,6 +110,25 @@ CHECK (
   VALUE ~ E'^\\d{3}$'
 );
 
+CREATE DOMAIN asgs_2011.sua_code AS char(4)
+CHECK (
+  VALUE ~ E'^\\d{4}$'
+);
+
+CREATE DOMAIN asgs_2011.ucl_code AS char(6)
+CHECK (
+  VALUE ~ E'^\\d{6}$'
+);
+
+CREATE DOMAIN asgs_2011.sosr_code AS char(3)
+CHECK (
+  VALUE ~ E'^\\d{3}$'
+);
+
+CREATE DOMAIN asgs_2011.sos_code AS char(2)
+CHECK (
+  VALUE ~ E'^\\d{2}$'
+);
 
 CREATE TYPE asgs_2011.landuse AS ENUM (
   'Residential',
@@ -209,6 +228,25 @@ CREATE FUNCTION asgs_2011.tr_ste(asgs_2011.tr_code) RETURNS asgs_2011.ste_code A
   SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
 $$ LANGUAGE SQL;
 
+-- From the UCL code extract the SOSR code
+CREATE FUNCTION asgs_2011.ucl_sosr(asgs_2011.ucl_code) RETURNS asgs_2011.sosr_code AS $$
+  SELECT substring($1 from 1 for 3)::asgs_2011.sosr_code;
+$$ LANGUAGE SQL;
+
+-- From the SOS code extract the STE code
+CREATE FUNCTION asgs_2011.sos_ste(asgs_2011.sos_code) RETURNS asgs_2011.ste_code AS $$
+  SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
+$$ LANGUAGE SQL;
+
+-- From the SOS code extract the SOS Identifier
+CREATE FUNCTION asgs_2011.sos_identifier(asgs_2011.sos_code) RETURNS char(1) AS $$
+  SELECT substring($1 from 2 for 1);
+$$ LANGUAGE SQL;
+
+-- From the SOSR code extract the SOS code
+CREATE FUNCTION asgs_2011.sosr_sos(asgs_2011.sosr_code) RETURNS asgs_2011.sos_code AS $$
+  SELECT substring($1 from 1 for 2)::asgs_2011.sos_code;
+$$ LANGUAGE SQL;
 
 --
 -- Now create the tables
@@ -254,6 +292,32 @@ CREATE UNLOGGED TABLE asgs_2011.gccsa_csv
   "ste" asgs_2011.ste_code REFERENCES asgs_2011.ste_csv(code)
 );
 
+CREATE UNLOGGED TABLE asgs_2011.sua_csv
+(
+  "code" asgs_2011.sua_code PRIMARY KEY,
+  "name" text
+);
+
+CREATE UNLOGGED TABLE asgs_2011.sos_csv
+(
+  "code" asgs_2011.sos_code PRIMARY KEY,
+  "name" text
+);
+
+CREATE UNLOGGED TABLE asgs_2011.sosr_csv
+(
+  "code" asgs_2011.sosr_code PRIMARY KEY,
+  "name" text,
+  "sos" asgs_2011.sos_code REFERENCES asgs_2011.sos_csv(code)
+);
+
+CREATE UNLOGGED TABLE asgs_2011.ucl_csv
+(
+  "code" asgs_2011.ucl_code PRIMARY KEY,
+  "name" text,
+  "sosr" asgs_2011.sosr_code REFERENCES asgs_2011.sosr_csv(code)
+);
+
 CREATE UNLOGGED TABLE asgs_2011.sa4_csv
 (
   "code" asgs_2011.sa4_code PRIMARY KEY,
@@ -285,7 +349,8 @@ CREATE UNLOGGED TABLE asgs_2011.sa2_csv
   "sa4" asgs_2011.sa4_code REFERENCES asgs_2011.sa4_csv(code),
   "gccsa" asgs_2011.gccsa_code REFERENCES asgs_2011.gccsa_csv(code),
   "ste" asgs_2011.ste_code REFERENCES asgs_2011.ste_csv(code),
-  "tr" asgs_2011.tr_code REFERENCES asgs_2011.tr_csv(code)
+  "tr" asgs_2011.tr_code REFERENCES asgs_2011.tr_csv(code),
+  "sua" asgs_2011.sua_code REFERENCES asgs_2011.sua_csv(code)
 );
 
 CREATE UNLOGGED TABLE asgs_2011.add_csv
@@ -346,7 +411,8 @@ CREATE UNLOGGED TABLE asgs_2011.sa1_csv
   "ced" asgs_2011.ced_code REFERENCES asgs_2011.ced_csv(code),
   "sed" asgs_2011.sed_code REFERENCES asgs_2011.sed_csv(code),
   "add" asgs_2011.add_code REFERENCES asgs_2011.add_csv(code),
-  "nrmr" asgs_2011.nrmr_code REFERENCES asgs_2011.nrmr_csv(code)
+  "nrmr" asgs_2011.nrmr_code REFERENCES asgs_2011.nrmr_csv(code),
+  "ucl" asgs_2011.ucl_code REFERENCES asgs_2011.ucl_csv(code)
 );
 
 CREATE UNLOGGED TABLE asgs_2011.mb_csv
