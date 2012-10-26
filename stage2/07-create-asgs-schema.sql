@@ -99,6 +99,26 @@ CREATE TABLE asgs_2011.mb AS (
   FROM asgs_2011.mb_csv csv LEFT JOIN asgs_2011.mb_ogr ogr USING (code)
 );
 
+CREATE TABLE asgs_2011.sua AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2011.sua_csv csv LEFT JOIN asgs_2011.sua_ogr ogr USING (code)
+);
+
+CREATE TABLE asgs_2011.ucl AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2011.ucl_csv csv LEFT JOIN asgs_2011.ucl_ogr ogr USING (code)
+);
+
+CREATE TABLE asgs_2011.sosr AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2011.sosr_csv csv LEFT JOIN asgs_2011.sosr_ogr ogr USING (code)
+);
+
+CREATE TABLE asgs_2011.sos AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2011.sos_csv csv LEFT JOIN asgs_2011.sos_ogr ogr USING (code)
+);
+
 -- Set primary key constraints
 
 ALTER TABLE asgs_2011.ste
@@ -173,6 +193,23 @@ ALTER TABLE asgs_2011.mb
   ADD CONSTRAINT mb_pkey PRIMARY KEY (code),
   SET WITH OIDS;
 
+ALTER TABLE asgs_2011.sua
+  ADD CONSTRAINT sua_pkey PRIMARY KEY (code),
+  SET WITH OIDS;
+
+ALTER TABLE asgs_2011.ucl
+  ADD CONSTRAINT ucl_pkey PRIMARY KEY (code),
+  SET WITH OIDS;
+
+ALTER TABLE asgs_2011.sosr
+  ADD CONSTRAINT sosr_pkey PRIMARY KEY (code),
+  SET WITH OIDS;
+
+ALTER TABLE asgs_2011.sos
+  ADD CONSTRAINT sos_pkey PRIMARY KEY (code),
+  SET WITH OIDS;
+
+
 
 -- Set foreign key constraints
 ALTER TABLE asgs_2011.ireg
@@ -244,12 +281,17 @@ ALTER TABLE asgs_2011.sa2
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   ADD CONSTRAINT sa2_tr_fkey FOREIGN KEY (tr)
     REFERENCES asgs_2011.tr (code) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
+  ADD CONSTRAINT sa4_sua_fkey FOREIGN KEY (sua)
+    REFERENCES asgs_2011.sua (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 
 ALTER TABLE asgs_2011.lga
   ADD CONSTRAINT lga_ste_fkey FOREIGN KEY (ste)
     REFERENCES asgs_2011.ste (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 
 ALTER TABLE asgs_2011.sa1
   ADD CONSTRAINT sa1_sa2_fkey FOREIGN KEY (sa2)
@@ -287,6 +329,9 @@ ALTER TABLE asgs_2011.sa1
     ON UPDATE NO ACTION ON DELETE NO ACTION,
   ADD CONSTRAINT sa1_nrmr_fkey FOREIGN KEY (nrmr)
     REFERENCES asgs_2011.nrmr (code) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
+  ADD CONSTRAINT sa1_ucl_fkey FOREIGN KEY (ucl)
+    REFERENCES asgs_2011.ucl (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
@@ -313,6 +358,17 @@ ALTER TABLE asgs_2011.mb
     REFERENCES asgs_2011.lga (code) MATCH SIMPLE
     ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+
+ALTER TABLE asgs_2011.sosr
+  ADD CONSTRAINT sosr_sos_fkey FOREIGN KEY (sos)
+    REFERENCES asgs_2011.sos (code) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+ALTER TABLE asgs_2011.ucl
+  ADD CONSTRAINT ucl_sosr_fkey FOREIGN KEY (sosr)
+    REFERENCES asgs_2011.sosr (code) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
 -- Create GIST indexes on the geom column
