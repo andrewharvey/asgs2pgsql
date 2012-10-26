@@ -236,4 +236,4 @@ for Debian and I'm able to load the PostGIS extensions into the asgs_2011
 schema.
 
 # Known Issues
-* You may run into issue [described here](http://postgis.org/documentation/manual-2.0/ch07.html#id2823352).
+* You may run into the issue [described here](http://postgis.org/documentation/manual-2.0/ch07.html#id2823352).
