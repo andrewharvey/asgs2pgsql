@@ -16,10 +16,11 @@ my $schema = "asgs_2011.";
 
 my $asgs_unzip_dir = "02-ASGS-UNZIP";
 
-my %table_mapping;
+my %src_tables;
+my %dst_tables;
 my %volume_mapping;
 my $column_mappings = {};
-my @ordered_tables;
+my @load_keys;
 my @links;
 
 while (<STDIN>) {
@@ -68,20 +69,24 @@ while (<STDIN>) {
       for my $g (@glob) {
         if ($g =~ /\/[0-9]*_(.*)_csv/) {
           my $expanded_src_table = $1;
-          $volume_mapping{$expanded_src_table} = $volume;
-          $table_mapping{$expanded_src_table} = $dst_table;
-          $column_mappings->{$expanded_src_table}->{$src_column} = $dst_column;
-          if (scalar (grep (/^$expanded_src_table$/, @ordered_tables)) == 0) {
-            push @ordered_tables, $expanded_src_table;
+          my $key = "$expanded_src_table-$dst_table";
+          $volume_mapping{$key} = $volume;
+          $src_tables{$key} = $expanded_src_table;
+          $dst_tables{$key} = $dst_table;
+          $column_mappings->{$key}->{$src_column} = $dst_column;
+          if (scalar (grep (/^$key$/, @load_keys)) == 0) {
+            push @load_keys, $key;
           }
         }
       }
     }else{
-      $volume_mapping{$src_table} = $volume;
-      $table_mapping{$src_table} = $dst_table;
-      $column_mappings->{$src_table}->{$src_column} = $dst_column;
-      if (scalar (grep (/^$src_table$/, @ordered_tables)) == 0) {
-        push @ordered_tables, $src_table;
+      my $key = "$src_table-$dst_table";
+      $volume_mapping{$key} = $volume;
+      $src_tables{$key} = $src_table;
+      $dst_tables{$key} = $dst_table;
+      $column_mappings->{$key}->{$src_column} = $dst_column;
+      if (scalar (grep (/^$key$/, @load_keys)) == 0) {
+        push @load_keys, $key;
       }
     }
   }else{
@@ -93,19 +98,13 @@ while (<STDIN>) {
 my $dbh = DBI->connect("DBI:Pg:", '', '' , {'RaiseError' => 1, AutoCommit => 0});
 my $sth;
 
-# truncate all tables prior to inserting values
-#for my $src_table (@ordered_tables) {
-#  my $dst_table = $table_mapping{$src_table};
-#  my $sth = $dbh->do("TRUNCATE TABLE $schema$dst_table CASCADE;");
-#  $dbh->commit;
-#}
+for my $key (@load_keys) {
+  my $src_table = $src_tables{$key};
+  my $dst_table = $dst_tables{$key};
+  my $volume = $volume_mapping{$key};
 
-for my $src_table (@ordered_tables) {
-  my $dst_table = $table_mapping{$src_table};
-  my $volume = $volume_mapping{$src_table};
-
-  my @src_columns = keys %{$column_mappings->{$src_table}};
-  my @dst_columns = values %{$column_mappings->{$src_table}};
+  my @src_columns = keys %{$column_mappings->{$key}};
+  my @dst_columns = values %{$column_mappings->{$key}};
 
   print "-- $src_table -> $schema$dst_table ...\n";
 
