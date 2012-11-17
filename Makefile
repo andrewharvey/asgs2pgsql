@@ -32,8 +32,11 @@ load :
 	# checking source ASGS data exists...
 	test -d 02-ASGS-UNZIP
 	
-	# create the database schema and _csv tables
-	psql -f stage2/03-create-asgs-csv-schema.sql
+	# create the database schema
+	psql -f stage2/03a-create-asgs-schema.sql
+	
+	# create the _csv tables
+	psql -f stage2/03b-create-asgs-csv-schema.sql
 	
 	# load the flat data from the CSV files into PostgreSQL
 	# the filename/table name and attribute mappings are defined in csv2pgsql.map
