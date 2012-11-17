@@ -5,11 +5,6 @@
 -- Ideally the ASGS would include it, until that time so we can support
 -- the 2011 Census a hack is included here.
 
-CREATE DOMAIN asgs_2011.aust_code AS char(1)
-CHECK (
-  VALUE ~ E'^\\d$'
-);
-
 CREATE TABLE asgs_2011.aust
 (
   "code" asgs_2011.aust_code PRIMARY KEY,

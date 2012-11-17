@@ -62,8 +62,9 @@ load :
 	# alter the sa1 table to include a materialised 7-digit code to supplement the 11-digit PRIMARY KEY code
 	psql -f stage2/09-sa1-7digit.sql
 	
-	# load the aust table (not part of official ASGS 2011, but referenced in the 2011 Census)
-	psql -f stage2/10-australia-hack.sql
+	# load the aust type and table (not part of official ASGS 2011, but referenced in the 2011 Census)
+	psql -f stage2/10a-australia-hack.sql
+	psql -f stage2/10b-australia-hack.sql
 	
 	# load extra ASGS related functions
 	psql -f stage2/98-load-extra-asgs-functions.sql
