@@ -159,7 +159,9 @@ which should download and unzip the ASGS Volume 1-4 files.
 If this step has been broken due to a change on the abs.gov.au web server
 (because the source datasets are CC-BY 2.5 licensed) I host a copy of the
 results after the `01-download-asgs.sh` step at http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/
-Just download this directory then run 02-unzip-asgs.sh.
+Just download this directory (perhaps with a
+`mkdir -p 01-ASGS-ZIP && cd 01-ASGS-ZIP && wget -r -nd -nc -np http://tianjara.net/data/asgs2pgsql/01-ASGS-ZIP/`
+) then run 02-unzip-asgs.sh.
 
 ## Stage 2: Loading the ASGS data into the database schema
 This stage assumes you have the 02-ASGS-UNZIP directory from stage 1. With this
