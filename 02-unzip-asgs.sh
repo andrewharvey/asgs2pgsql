@@ -13,7 +13,7 @@ if [ -d "$asgs_dir" ] ; then
   for f in "$asgs_dir"/*.zip ; do
     b=`basename "$f" '.zip'`
     mkdir -p "$asgs_unzip_dir/$b/"
-    unzip "$f" -d "$asgs_unzip_dir/$b/"
+    unzip -u "$f" -d "$asgs_unzip_dir/$b/"
   done
 else
   echo "$asgs_dir doesn't exist. Run ./01-download-asgs.sh first."
