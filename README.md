@@ -239,3 +239,7 @@ schema.
 
 # Known Issues
 * You may run into the issue [described here](http://postgis.org/documentation/manual-2.0/ch07.html#id2823352).
+
+# How to use the resulting database
+Some examples of scripts you can run to pull intelligence from the resulting
+asgs2pgsql schema are included in the examples directory.
