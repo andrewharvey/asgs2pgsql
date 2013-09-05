@@ -108,4 +108,7 @@ download 4 "sos_2011_aust_shape.zip" "09598BD74AC10B0CCA257A980013CAD8" "July 20
 
 # ASGS Volume 5
 # ABS Publication: 1270.0.55.005
+download 5 "ra_2011_aust.zip" "2F6D222C94BC11F7CA257B03000D6DDC" "July 2011" "31.01.2013" "Latest"
+download 5 "sa1_2011_ra_2011_aust.zip" "90EDF571EC21BFA0CA257B03000D6E73" "July 2011" "31.01.2013" "Latest"
+download 5 "ra_2001_aust_shape.zip" "C712776994895856CA257B03000D7599" "July 2011" "31.01.2013" "Latest"
 
