@@ -101,7 +101,7 @@ the [last section of this README](#loading-an-existing-db-dump).
 
 # Requirements
 Debian Dependencies: `gdal-bin (>= 1.7.0), libdbd-pg-perl,
-  postgresql-9.1-postgis, libtext-csv-perl, unzip, wget`
+  postgresql-9.1-postgis | postgresql-9.3-postgis-2.1, libtext-csv-perl, unzip, wget`
 
 The scripts assume you have a PostgreSQL database up and running. We leave
 authentication to this database your responsibility through the PostgreSQL
@@ -140,8 +140,12 @@ database and PostGIS extensions on Debian using (replacing YOUR_DB and YOUR_DB_U
     createuser --no-createdb --no-createrole --superuser YOUR_DB
     createdb --owner=YOUR_DB_USER YOUR_DB
     exit
+
     # then with your PG* environment variables set load the postgis extensions
     psql -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+
+    # or if using >= PostGIS 2.1
+    psql -c "CREATE EXTENSION postgis SCHEMA asgs_2011;"
 
 Once that is set up, the rest of the process is as follows.
 
