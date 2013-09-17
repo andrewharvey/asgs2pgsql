@@ -125,7 +125,7 @@ system and run these scripts as that user.
 First you need to set up and export some PG environment variables otherwise the
 PostgreSQL defaults will be used. For example,
 
-    export PGHOST=localhost
+    export PGHOST=localhost # not necessary if localhost
     export PGDATABASE=abs
     export PGUSER=abs
 
