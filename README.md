@@ -1,6 +1,7 @@
 # About
 This project provides the Australian Bureau of Statistics
-[Australian Statistical Geography Standard](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS\))
+[Australian Statistical Geography
+Standard](http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+(ASGS))
 (ASGS) in a PostgreSQL database using the PostGIS extension to store the
 geospatial data.
 
@@ -19,7 +20,8 @@ standard to those statistics.
 
 # About the ASGS
 The ASGS consists of around 22 individual structures which are classified into ABS Structures and Non-ABS
-Structures [as shown in this diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%20Structure%20and%20Summary.pdf).
+Structures [as shown in this
+diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%202011%20Structure%20and%20Summary.pdf).
 
 The 2011 release of the ASGS consists of Volumes 1-5. Volume 5 has not
 yet been released and as such these scripts just process volumes 1-4.
