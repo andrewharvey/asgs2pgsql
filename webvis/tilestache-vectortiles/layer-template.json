@@ -1,0 +1,24 @@
+"$STRUCTURE-vector":
+{
+    "provider":
+    {
+        "name": "vector",
+        "driver": "PostgreSQL",
+        "parameters":
+        {
+            "dbname": "$DBNAME",
+            "user": "$DBUSER",
+            "table": "asgs_2011.$STRUCTURE(geom)"
+        },
+        "id_property": "$ID_PROPERTY",
+        "properties": $PROPERTIES,
+        "clipped": false,
+        "simplify": 2,
+        "precision": 6
+    },
+    "bounds":
+    {
+        "low": $LOWBOUND
+    },
+    "allowed origin": "*"
+},

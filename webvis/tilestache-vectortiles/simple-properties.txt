@@ -1,0 +1,27 @@
+mb code,category
+sa1 code
+sa2 code,name
+sa3 code,name
+sa4 code,name
+ste code,name
+aust code,name
+
+add code,name
+ced code,name
+gccsa code,name
+
+iare code,name
+iloc code,name
+ireg code,name
+
+lga code,name
+lga_extras code,name,short_name,status_code,status_name
+nrmr code,name
+poa code,name
+sed code,name
+sos code,name
+sosr code,name
+ssc code,name,confidence
+sua code,name
+tr code,name
+ucl code,name
