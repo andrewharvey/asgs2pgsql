@@ -9,6 +9,7 @@
 
 CREATE SCHEMA asgs_2011;
 
+CREATE EXTENSION postgis SCHEMA asgs_2011;
 
 
 --
