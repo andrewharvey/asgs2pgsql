@@ -17,7 +17,7 @@ t_srs="EPSG:4283"
 # 3. GDA94 / Australian Albers coordinate system
 #t_srs="EPSG:3577"
 
-all : clean load
+all : clean load_psql
 
 clean :
 	psql -c "DROP SCHEMA IF EXISTS asgs_2011 CASCADE;"
@@ -27,7 +27,7 @@ download :
 	./01-download-asgs.sh
 	./02-unzip-asgs.sh
 
-load :
+load_psql :
 	# checking source ASGS data exists...
 	test -d 02-ASGS-UNZIP
 	
