@@ -5,7 +5,7 @@
 # rights to this work.
 # http://creativecommons.org/publicdomain/zero/1.0/
 
-for i in {1..5}
+for i in {1..6}
 do
   echo "# ASGS Volume $i"
   echo "# ABS Publication: 1270.0.55.00$i"
