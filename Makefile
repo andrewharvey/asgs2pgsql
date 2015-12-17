@@ -26,6 +26,7 @@ clean :
 download :
 	./01-download-asgs.sh
 	./02-unzip-asgs.sh
+	./02b-merge-mb-aust.sh
 
 load_psql :
 	# checking source ASGS data exists...
