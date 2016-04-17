@@ -7,16 +7,16 @@
 
 use strict;
 
-my $schema = "asgs_2011";
-
 my $asgs_unzip_dir = "02-ASGS-UNZIP";
 
 # table_mapping - hash of SHAPE file name to PostgreSQL table name
+# schema_mapping - hash of SHAPE file name to PostgreSQL schema
 # volume_mapping - hash of SHAPE file name to dataset ABS publication volume
 # src_col_mapping - hash of SHAPE file name to SHAPE file primary key attribute
 # dst_col_mapping - hash of SHAPE file name to PostgreSQL primary key attribute
 my %table_mapping;
 my %volume_mapping;
+my %schema_mapping;
 my %src_col_mapping;
 my %dst_col_mapping;
 my @ordered_tables;
@@ -41,12 +41,13 @@ while (<STDIN>) {
   next if /^#/;
   next if /^\s*$/;
 
-  if (/([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)/) {
+  if (/([^\s]*)\s([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)/) {
     my $volume = $1;
-    my $src_table = $2;
-    my $src_column = $3;
-    my $dst_table = $4;
-    my $dst_column = $5;
+    my $schema = $2;
+    my $src_table = $3;
+    my $src_column = $4;
+    my $dst_table = $5;
+    my $dst_column = $6;
 
     # if wildcard character exists, expand it now
     if ($src_table =~ /\*/) {
@@ -55,6 +56,7 @@ while (<STDIN>) {
         if ($g =~ /\/[0-9]*_(.*)_csv/) {
           my $expanded_src_table = $1;
           $volume_mapping{$expanded_src_table} = $volume;
+          $schema_mapping{$expanded_src_table} = $schema;
           $table_mapping{$expanded_src_table} = $dst_table;
           $src_col_mapping{$expanded_src_table} = $src_column;
           $dst_col_mapping{$expanded_src_table} = $dst_column;
@@ -65,6 +67,7 @@ while (<STDIN>) {
       }
     }else{
       $volume_mapping{$src_table} = $volume;
+      $schema_mapping{$src_table} = $schema;
       $table_mapping{$src_table} = $dst_table;
       $src_col_mapping{$src_table} = $src_column;
       $dst_col_mapping{$src_table} = $dst_column;
@@ -85,6 +88,7 @@ for my $src_table (@ordered_tables) {
 
   my $dst_table = $table_mapping{$src_table};
   my $volume = $volume_mapping{$src_table};
+  my $schema = 'asgs_' . $schema_mapping{$src_table};
 
   my $src_col = $src_col_mapping{$src_table};
   my $dst_col = $dst_col_mapping{$src_table};
@@ -113,7 +117,7 @@ for my $src_table (@ordered_tables) {
 
   print "psql statements...\n";
 
-  if (!exists $sql_generated_tables_this_session{$dst_table}) {
+  if (!exists $sql_generated_tables_this_session{"$schema.$dst_table"}) {
     # generate SQL to change the datatype of the attribute we use to JOIN back to the CSV table so they are common
     print $cast_ogr_sql_fh "-- change datatype so we can join USING (code)\n";
     print $cast_ogr_sql_fh "BEGIN;\n".
@@ -130,7 +134,7 @@ for my $src_table (@ordered_tables) {
     print $cleanup_sql_fh "DROP TABLE $schema.${dst_table}_ogr CASCADE;\n";
     print $cleanup_sql_fh "DROP TABLE $schema.${dst_table}_csv CASCADE;\n\n";
 
-    $sql_generated_tables_this_session{$dst_table} = "yes";
+    $sql_generated_tables_this_session{"$schema.$dst_table"} = "yes";
   }
 }
 

@@ -21,7 +21,9 @@ all : clean load_psql
 
 clean :
 	psql -c "DROP SCHEMA IF EXISTS asgs_2011 CASCADE;"
+	psql -c "DROP SCHEMA IF EXISTS asgs_2015 CASCADE;"
 	psql -c "DELETE FROM geometry_columns WHERE (f_table_schema = 'asgs_2011');"
+	psql -c "DELETE FROM geometry_columns WHERE (f_table_schema = 'asgs_2015');"
 
 download :
 	./01-download-asgs.sh

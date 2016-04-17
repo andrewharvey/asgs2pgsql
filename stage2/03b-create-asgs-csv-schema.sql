@@ -100,6 +100,12 @@ CREATE UNLOGGED TABLE asgs_2011.tr_csv
   "name" text
 );
 
+CREATE UNLOGGED TABLE asgs_2015.tr_csv
+(
+  "code" asgs_2015.tr_code PRIMARY KEY,
+  "name" text
+);
+
 CREATE UNLOGGED TABLE asgs_2011.sa2_csv
 (
   "code" asgs_2011.sa2_code PRIMARY KEY,
@@ -152,6 +158,13 @@ CREATE UNLOGGED TABLE asgs_2011.poa_csv
 CREATE UNLOGGED TABLE asgs_2011.lga_csv
 (
   "code" asgs_2011.lga_code PRIMARY KEY,
+  "name" text,
+  "ste" asgs_2011.ste_code REFERENCES asgs_2011.ste_csv(code)
+);
+
+CREATE UNLOGGED TABLE asgs_2015.lga_csv
+(
+  "code" asgs_2015.lga_code PRIMARY KEY,
   "name" text,
   "ste" asgs_2011.ste_code REFERENCES asgs_2011.ste_csv(code)
 );

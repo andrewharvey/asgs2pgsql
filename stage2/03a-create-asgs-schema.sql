@@ -8,8 +8,10 @@
 -- http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+%28ASGS%29
 
 CREATE SCHEMA asgs_2011;
+CREATE SCHEMA asgs_2015;
 
 CREATE EXTENSION postgis SCHEMA asgs_2011;
+CREATE EXTENSION postgis SCHEMA asgs_2015;
 
 
 --
@@ -91,7 +93,17 @@ CHECK (
   VALUE ~ E'^\\d{5}$'
 );
 
+CREATE DOMAIN asgs_2015.lga_code AS char(5)
+CHECK (
+  VALUE ~ E'^\\d{5}$'
+);
+
 CREATE DOMAIN asgs_2011.tr_code AS char(5)
+CHECK (
+  VALUE ~ E'^\\d\\w{4}$'
+);
+
+CREATE DOMAIN asgs_2015.tr_code AS char(5)
 CHECK (
   VALUE ~ E'^\\d\\w{4}$'
 );
@@ -214,6 +226,10 @@ CREATE FUNCTION asgs_2011.lga_ste(asgs_2011.lga_code) RETURNS asgs_2011.ste_code
   SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
 $$ LANGUAGE SQL;
 
+CREATE FUNCTION asgs_2015.lga_ste(asgs_2015.lga_code) RETURNS asgs_2011.ste_code AS $$
+  SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
+$$ LANGUAGE SQL;
+
 -- From the NRMR code extract the STE code
 CREATE FUNCTION asgs_2011.nrmr_ste(asgs_2011.nrmr_code) RETURNS asgs_2011.ste_code AS $$
   SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
@@ -226,6 +242,10 @@ $$ LANGUAGE SQL;
 
 -- From the TR code extract the STE code
 CREATE FUNCTION asgs_2011.tr_ste(asgs_2011.tr_code) RETURNS asgs_2011.ste_code AS $$
+  SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
+$$ LANGUAGE SQL;
+
+CREATE FUNCTION asgs_2015.tr_ste(asgs_2015.tr_code) RETURNS asgs_2011.ste_code AS $$
   SELECT substring($1 from 1 for 1)::asgs_2011.ste_code;
 $$ LANGUAGE SQL;
 

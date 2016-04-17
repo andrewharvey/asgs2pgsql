@@ -49,6 +49,11 @@ CREATE TABLE asgs_2011.tr AS (
   FROM asgs_2011.tr_csv csv LEFT JOIN asgs_2011.tr_ogr ogr USING (code)
 );
 
+CREATE TABLE asgs_2015.tr AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2015.tr_csv csv LEFT JOIN asgs_2015.tr_ogr ogr USING (code)
+);
+
 CREATE TABLE asgs_2011.sa2 AS (
   SELECT csv.*, ogr.wkb_geometry as geom
   FROM asgs_2011.sa2_csv csv LEFT JOIN asgs_2011.sa2_ogr ogr USING (code)
@@ -87,6 +92,11 @@ CREATE TABLE asgs_2011.poa AS (
 CREATE TABLE asgs_2011.lga AS (
   SELECT csv.*, ogr.wkb_geometry as geom
   FROM asgs_2011.lga_csv csv LEFT JOIN asgs_2011.lga_ogr ogr USING (code)
+);
+
+CREATE TABLE asgs_2015.lga AS (
+  SELECT csv.*, ogr.wkb_geometry as geom
+  FROM asgs_2015.lga_csv csv LEFT JOIN asgs_2015.lga_ogr ogr USING (code)
 );
 
 CREATE TABLE asgs_2011.sa1 AS (

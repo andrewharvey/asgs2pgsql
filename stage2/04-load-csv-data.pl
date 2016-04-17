@@ -12,13 +12,12 @@ use DBI;
 sub cut($$);
 sub vacuum_analyze($);
 
-my $schema = "asgs_2011.";
-
 my $asgs_unzip_dir = "02-ASGS-UNZIP";
 
 my %src_tables;
 my %dst_tables;
 my %volume_mapping;
+my %schema_mapping;
 my $column_mappings = {};
 my @load_keys;
 my @links;
@@ -32,36 +31,38 @@ while (<STDIN>) {
     my $link_line = $1;
 
     # value should match:
-    # 2 Indigenous_Structure_Allocation_2011.SA1_MAINCODE_2011 sa1.code Indigenous_Structure_Allocation_2011.ILOC_CODE_2011 sa1.iloc
-    if ($link_line =~ /^(\d)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)\s\2\.([^\s]*)\s\4\.([^\s]*)/) {
+    # 2 2011 Indigenous_Structure_Allocation_2011.SA1_MAINCODE_2011 sa1.code Indigenous_Structure_Allocation_2011.ILOC_CODE_2011 sa1.iloc
+    if ($link_line =~ /^(\d)\s([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.([^\s]*)\s\3\.([^\s]*)\s\5\.([^\s]*)/) {
       my $volume = $1;
-      my $src_table = $2;
-      my $csv_sa1_attribute = $3;
-      my $db_sa1_table = "$4" . "_csv";
-      my $db_sa1_attribute = $5;
-      my $csv_link_attribute = $6;
-      my $db_link_attribute = $7;
+      my $schema = $2;
+      my $src_table = $3;
+      my $csv_sa1_attribute = $4;
+      my $db_sa1_table = "$5" . "_csv";
+      my $db_sa1_attribute = $6;
+      my $csv_link_attribute = $7;
+      my $db_link_attribute = $8;
 
       if ($link_line =~ /\*/) { # wildcard character exists, expand it out
         my @glob = glob "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/";
         for my $g (@glob) {
           if ($g =~ /\/[0-9]*_(.*)_csv/) {
             my $expanded_src_table = $1;
-            push @links, [$volume, $expanded_src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
+            push @links, [$volume, $schema, $expanded_src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
           }
         }
       }else{
-        push @links, [$volume, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
+        push @links, [$volume, $schema, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute];
       }
     }else{
       print STDERR "Parse Error: LINK string in unexpected format: $link_line\n";
     }
-  }elsif (/([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.(.*)/) {
+  }elsif (/([^\s]*)\s([^\s]*)\s([^\.]*)\.([^\s]*)\s([^\.]*)\.(.*)/) {
     my $volume = $1;
-    my $src_table = $2;
-    my $src_column = $3;
-    my $dst_table = "$4" . "_csv";
-    my $dst_column = $5;
+    my $schema = $2;
+    my $src_table = $3;
+    my $src_column = $4;
+    my $dst_table = "$5" . "_csv";
+    my $dst_column = $6;
 
     # if wildcard character exists, expand it now
     if ($src_table =~ /\*/) {
@@ -71,6 +72,7 @@ while (<STDIN>) {
           my $expanded_src_table = $1;
           my $key = "$expanded_src_table-$dst_table";
           $volume_mapping{$key} = $volume;
+          $schema_mapping{$key} = $schema;
           $src_tables{$key} = $expanded_src_table;
           $dst_tables{$key} = $dst_table;
           $column_mappings->{$key}->{$src_column} = $dst_column;
@@ -82,6 +84,7 @@ while (<STDIN>) {
     }else{
       my $key = "$src_table-$dst_table";
       $volume_mapping{$key} = $volume;
+      $schema_mapping{$key} = $schema;
       $src_tables{$key} = $src_table;
       $dst_tables{$key} = $dst_table;
       $column_mappings->{$key}->{$src_column} = $dst_column;
@@ -102,11 +105,12 @@ for my $key (@load_keys) {
   my $src_table = $src_tables{$key};
   my $dst_table = $dst_tables{$key};
   my $volume = $volume_mapping{$key};
+  my $schema = 'asgs_' . $schema_mapping{$key};
 
   my @src_columns = keys %{$column_mappings->{$key}};
   my @dst_columns = values %{$column_mappings->{$key}};
 
-  print "-- $src_table -> $schema$dst_table ...\n";
+  print "-- $src_table -> $schema.$dst_table ...\n";
 
   # open the source csv file for reading
   my $csv = Text::CSV->new();
@@ -135,7 +139,7 @@ for my $key (@load_keys) {
   my %inserts;
 
   # put the dbh into COPY mode
-  $dbh->do("COPY $schema$dst_table(" . join( ',', @dst_columns) . ") FROM STDIN;");
+  $dbh->do("COPY $schema.$dst_table(" . join( ',', @dst_columns) . ") FROM STDIN;");
 
   # go through each line in the source csv file and load the data
   while (my $row = $csv->getline($src_data)) {
@@ -154,16 +158,17 @@ for my $key (@load_keys) {
   # take the dbh out of COPY mode
   $dbh->pg_putcopyend() or die $!;
 
-  vacuum_analyze("$schema$dst_table");
+  vacuum_analyze("$schema.$dst_table");
 
   close $src_data or warn $!;
 }
 
 # run through LINK load scripts
 for my $link (@links) {
-  my ($volume, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute) = @{$link};
+  my ($volume, $schema, $src_table, $csv_sa1_attribute, $db_sa1_table, $db_sa1_attribute, $csv_link_attribute, $db_link_attribute) = @{$link};
+  $schema = 'asgs_' . $schema;
 
-  print "-- LINK $db_sa1_table.$db_link_attribute  ...\n";
+  print "-- LINK $db_sa1_table.$db_link_attribute ($src_table) ...\n";
 
   # open the source csv file for reading
   my $csv = Text::CSV->new();
@@ -182,7 +187,7 @@ for my $link (@links) {
   }
 
   # prepare the insert statement
-  $sth = $dbh->prepare("UPDATE $schema$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
+  $sth = $dbh->prepare("UPDATE $schema.$db_sa1_table SET $db_link_attribute = ? WHERE $db_sa1_attribute = ?;");
 
   # go through each line in the source csv file and execute the UPDATE statement
   while (my $row = $csv->getline_hr($src_data)) {
@@ -191,7 +196,7 @@ for my $link (@links) {
 
   $dbh->commit or die $!;
 
-  vacuum_analyze("$schema$db_sa1_table");
+  vacuum_analyze("$schema.$db_sa1_table");
 
   close $src_data or warn $!;
 }
