@@ -7,9 +7,19 @@
 
 CREATE TABLE asgs_2011.aust
 (
-  "code" asgs_2011.aust_code PRIMARY KEY,
+  "code" asgs.aust_code PRIMARY KEY,
   "name" text
 );
 
 INSERT INTO asgs_2011.aust (code, name) VALUES
+(0, 'Australia');
+
+
+CREATE TABLE asgs_2016.aust
+(
+  "code" asgs.aust_code PRIMARY KEY,
+  "name" text
+);
+
+INSERT INTO asgs_2016.aust (code, name) VALUES
 (0, 'Australia');

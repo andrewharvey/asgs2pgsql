@@ -20,8 +20,10 @@ t_srs="EPSG:4283"
 all : clean load_psql
 
 clean :
+	psql -c "DROP SCHEMA IF EXISTS asgs CASCADE;"
 	psql -c "DROP SCHEMA IF EXISTS asgs_2011 CASCADE;"
 	psql -c "DROP SCHEMA IF EXISTS asgs_2015 CASCADE;"
+	psql -c "DROP SCHEMA IF EXISTS asgs_2016 CASCADE;"
 	psql -c "DELETE FROM geometry_columns WHERE (f_table_schema = 'asgs_2011');"
 	psql -c "DELETE FROM geometry_columns WHERE (f_table_schema = 'asgs_2015');"
 
@@ -38,11 +40,15 @@ load_psql :
 	psql -f stage2/03a-create-asgs-schema.sql
 	
 	# create the _csv tables
-	psql -f stage2/03b-create-asgs-csv-schema.sql
+	psql -f stage2/03b-create-asgs-csv-schema-2011.sql
+	psql -f stage2/03b-create-asgs-csv-schema-2015.sql
+	psql -f stage2/03b-create-asgs-csv-schema-2016.sql
 	
 	# load the flat data from the CSV files into PostgreSQL
 	# the filename/table name and attribute mappings are defined in csv2pgsql.map
-	./stage2/04-load-csv-data.pl < csv2psql.map
+	./stage2/04-load-csv-data.pl < csv2psql-2011.map
+	./stage2/04-load-csv-data.pl < csv2psql-2015.map
+	./stage2/04-load-csv-data.pl < csv2psql-2016.map
 	
 	# load geometries into _ogr tables from the SHAPE files
 	# the schema mapping is controlled by the shp2pgsql.map file
@@ -55,7 +61,9 @@ load_psql :
 	psql -f stage2/06-cast-ogr.sql
 	
 	# join the csv and ogr tables together,
-	psql -f stage2/07-create-asgs-schema.sql
+	psql -f stage2/07-create-asgs-schema-2011.sql
+	psql -f stage2/07-create-asgs-schema-2015.sql
+	psql -f stage2/07-create-asgs-schema-2016.sql
 	
 	# fixup the geometry_columns table and cleanup the _ogr and _csv tables
 	# leaving just the final joined tables
@@ -69,7 +77,8 @@ load_psql :
 	psql -f stage2/10b-australia-hack.sql
 	
 	# load extra ASGS related functions
-	psql -f stage2/98-load-extra-asgs-functions.sql
+	psql -f stage2/98-load-extra-asgs-functions-2011.sql
+	psql -f stage2/98-load-extra-asgs-functions-2016.sql
 	
 	# load extra views which provided added value to the standard ASGS schema
 	psql -f stage2/99-create-extra-views.sql
@@ -88,3 +97,5 @@ drop_generalization_pyramid :
 
 dump :
 	pg_dump --format plain --schema "asgs_2011" --no-owner | xz > asgs_2011.sql.xz
+	pg_dump --format plain --schema "asgs_2015" --no-owner | xz > asgs_2015.sql.xz
+	pg_dump --format plain --schema "asgs_2016" --no-owner | xz > asgs_2016.sql.xz

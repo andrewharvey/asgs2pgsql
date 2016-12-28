@@ -119,10 +119,11 @@ for my $src_table (@ordered_tables) {
 
   if (!exists $sql_generated_tables_this_session{"$schema.$dst_table"}) {
     # generate SQL to change the datatype of the attribute we use to JOIN back to the CSV table so they are common
+    print $cast_ogr_sql_fh "\\echo $schema.${dst_table}\n";
     print $cast_ogr_sql_fh "-- change datatype so we can join USING (code)\n";
     print $cast_ogr_sql_fh "BEGIN;\n".
-                           "ALTER TABLE $schema.${dst_table}_ogr ADD COLUMN $dst_col $schema.$dst_col_datatype;\n".
-                           "UPDATE $schema.${dst_table}_ogr SET $dst_col = CAST($src_col AS $schema.$dst_col_datatype);\n".
+                           "ALTER TABLE $schema.${dst_table}_ogr ADD COLUMN $dst_col asgs.$dst_col_datatype;\n".
+                           "UPDATE $schema.${dst_table}_ogr SET $dst_col = CAST($src_col AS asgs.$dst_col_datatype);\n".
                            "ALTER TABLE $schema.${dst_table}_ogr DROP COLUMN $src_col;\n".
                            "COMMIT;\n";
     print $cast_ogr_sql_fh "VACUUM ANALYZE $schema.${dst_table}_ogr;\n\n";

@@ -23,21 +23,16 @@ The ASGS consists of around 22 individual structures which are classified into A
 Structures [as shown in this
 diagram](http://www.abs.gov.au/websitedbs/D3310114.nsf/4a256353001af3ed4b2562bb00121564/c453c497aadde71cca2576d300026a38/$FILE/ASGS%202011%20Structure%20and%20Summary.pdf).
 
-The 2011 release of the ASGS consists of Volumes 1-5. Volume 5 has not
-yet been released and as such these scripts just process volumes 1-4.
+The ASGS consists of Volumes 1-5.
 
 * Volume 1 - 1270.0.55.001 consists of the Main Structure and Greater Capital City Statistical Areas ([documentation](http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&1270055001_july%202011.pdf&1270.0.55.001&Publication&D3DC26F35A8AF579CA257801000DCD7D&&July%202011&23.12.2010&Latest))
 * Volume 2 - 1270.0.55.002 consists of the Indigenous Structure ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055002_july%202011.pdf&1270.0.55.002&Publication&FE2D2D707996F20ACA25791000152669&&July%202011&20.09.2011&Previous))
 * Volume 3 - 1270.0.55.003 consists of the Non-ABS Structures ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055003_oct%202011.pdf&1270.0.55.003&Publication&469CDA45CE2B94CCCA257937000D966F&&July%202011&31.10.2011&Previous))
 * Volume 4 - 1270.0.55.004 consists of the Significant Urban Areas and Section of State/Urban Centres and Localities Structure (SUA, SOS/UCL) ([documentation](http://www.abs.gov.au/AUSSTATS/subscriber.nsf/log?openagent&1270055004_july%202011.pdf&1270.0.55.004&Publication&1080B7CB374FC771CA257A980013D404&&July%202011&16.10.2012&Latest))
-* Volume 5 - 1270.0.55.005 consists of the Remoteness Structure
+* Volume 5 - 1270.0.55.005 consists of the Remoteness Structure ([documentation](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.005July%202011?OpenDocument))
 
-The ABS Structures (vol 1, 2, 4, 5) will not change until the next Census
-in 2016, however the Non-ABS Structures (vol 3) will be updated annually.
-
-For now the scripts load all the volumes into the asgs_2011 schema,
-although in the future this will need a rethink to address the annual
-updates and 5 year census updates.
+The ABS Structures (vol 1, 2, 4, 5) are usually updated for each Census,
+however the Non-ABS Structures (vol 3) will be updated annually.
 
 ## About the target schema
 The target PostgreSQL schema which stores the ASGS aims to be true to and

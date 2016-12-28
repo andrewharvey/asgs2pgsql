@@ -1,0 +1,21 @@
+# This file defines the attribute mapping used to load the ABS ASGS CSV files
+# into our database (which has the schema defined in 03-create-asgs-schema.sql).
+#
+# Lines must be of the format (unless they begin with LINK which we explain
+# later on in this file):
+# ABS_VOL_NUM SCHEMA CSV_FILE.CSV_FILE_ATTRIBUTE PSQL_TABLE.PSQL_ATTRIBUTE
+
+# To the extent possible under law, the person who associated CC0
+# with this work has waived all copyright and related or neighboring
+# rights to this work.
+# http://creativecommons.org/publicdomain/zero/1.0/
+
+# This schema is partly derived from the ASGS structure.
+# http://www.abs.gov.au/websitedbs/D3310114.nsf/home/Australian+Statistical+Geography+Standard+%28ASGS%29
+
+3 2015 TR_2015_AUST.TR_CODE_2015 tr.code
+3 2015 TR_2015_AUST.TR_NAME_2015 tr.name
+
+3 2015 LGA_2015_*.LGA_CODE_2015 lga.code
+3 2015 LGA_2015_*.LGA_NAME_2015 lga.name
+3 2015 LGA_2015_*.STATE_CODE_2011 lga.ste
