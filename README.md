@@ -71,7 +71,7 @@ want a copy of the database without needing to "build" it from source skip to
 the [last section of this README](#loading-an-existing-db-dump).
 
 ## Requirements
-Debian dependencies: `make, gdal-bin (>= 1.7.0), libdbd-pg-perl, (postgis >= 2.1), libtext-csv-perl | libtext-csv-xs-perl, unzip, wget`
+Debian dependencies: `make, gdal-bin (>= 1.7.0), libdbd-pg-perl, (postgis >= 2.1), libtext-csv-perl, libtext-csv-xs-perl, unzip, wget`
 
 The scripts assume you have a PostgreSQL database up and running. We leave
 authentication to this database your responsibility through the PostgreSQL
