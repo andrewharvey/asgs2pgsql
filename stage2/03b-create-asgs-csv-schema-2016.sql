@@ -51,32 +51,6 @@ CREATE UNLOGGED TABLE asgs_2016.gccsa_csv
   "ste" asgs.ste_code REFERENCES asgs_2016.ste_csv(code)
 );
 
-CREATE UNLOGGED TABLE asgs_2016.sua_csv
-(
-  "code" asgs.sua_code PRIMARY KEY,
-  "name" text
-);
-
-CREATE UNLOGGED TABLE asgs_2016.sos_csv
-(
-  "code" asgs.sos_code PRIMARY KEY,
-  "name" text
-);
-
-CREATE UNLOGGED TABLE asgs_2016.sosr_csv
-(
-  "code" asgs.sosr_code PRIMARY KEY,
-  "name" text,
-  "sos" asgs.sos_code REFERENCES asgs_2016.sos_csv(code)
-);
-
-CREATE UNLOGGED TABLE asgs_2016.ucl_csv
-(
-  "code" asgs.ucl_code PRIMARY KEY,
-  "name" text,
-  "sosr" asgs.sosr_code REFERENCES asgs_2016.sosr_csv(code)
-);
-
 CREATE UNLOGGED TABLE asgs_2016.sa4_csv
 (
   "code" asgs.sa4_code PRIMARY KEY,
@@ -156,13 +130,6 @@ CREATE UNLOGGED TABLE asgs_2016.lga_csv
   "ste" asgs.ste_code REFERENCES asgs_2016.ste_csv(code)
 );
 
-CREATE UNLOGGED TABLE asgs_2016.ra_csv
-(
-  "code" asgs.ra_code PRIMARY KEY,
-  "name" text,
-  "ste" asgs.ste_code REFERENCES asgs_2016.ste_csv(code)
-);
-
 CREATE UNLOGGED TABLE asgs_2016.sa1_csv
 (
   "code" asgs.sa1_code PRIMARY KEY,
@@ -178,8 +145,6 @@ CREATE UNLOGGED TABLE asgs_2016.sa1_csv
   "sed" asgs.sed_code REFERENCES asgs_2016.sed_csv(code),
   "add" asgs.add_code REFERENCES asgs_2016.add_csv(code),
   "nrmr" asgs.nrmr_code REFERENCES asgs_2016.nrmr_csv(code),
-  "ucl" asgs.ucl_code REFERENCES asgs_2016.ucl_csv(code),
-  "ra" asgs.ra_code REFERENCES asgs_2016.ra_csv(code)
 );
 
 CREATE UNLOGGED TABLE asgs_2016.mb_csv
