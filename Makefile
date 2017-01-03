@@ -96,6 +96,7 @@ drop_generalization_pyramid :
 	psql -f stage3/drop-generalization-pyramid.sql
 
 dump :
-	pg_dump --format plain --schema "asgs_2011" --no-owner | xz > asgs_2011.sql.xz
-	pg_dump --format plain --schema "asgs_2015" --no-owner | xz > asgs_2015.sql.xz
-	pg_dump --format plain --schema "asgs_2016" --no-owner | xz > asgs_2016.sql.xz
+	mkdir -p exports
+	pg_dump --format plain --schema "asgs_2011" --no-owner | pxz > exports/asgs_2011.sql.xz
+	pg_dump --format plain --schema "asgs_2015" --no-owner | pxz > exports/asgs_2015.sql.xz
+	pg_dump --format plain --schema "asgs_2016" --no-owner | pxz > exports/asgs_2016.sql.xz
