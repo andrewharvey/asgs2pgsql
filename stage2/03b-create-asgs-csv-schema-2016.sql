@@ -82,8 +82,7 @@ CREATE UNLOGGED TABLE asgs_2016.sa2_csv
   "sa4" asgs.sa4_code REFERENCES asgs_2016.sa4_csv(code),
   "gccsa" asgs.gccsa_code REFERENCES asgs_2016.gccsa_csv(code),
   "ste" asgs.ste_code REFERENCES asgs_2016.ste_csv(code),
-  "tr" asgs.tr_code REFERENCES asgs_2016.tr_csv(code),
-  "sua" asgs.sua_code REFERENCES asgs_2016.sua_csv(code)
+  "tr" asgs.tr_code REFERENCES asgs_2016.tr_csv(code)
 );
 
 CREATE UNLOGGED TABLE asgs_2016.add_csv
@@ -144,7 +143,7 @@ CREATE UNLOGGED TABLE asgs_2016.sa1_csv
   "ced" asgs.ced_code REFERENCES asgs_2016.ced_csv(code),
   "sed" asgs.sed_code REFERENCES asgs_2016.sed_csv(code),
   "add" asgs.add_code REFERENCES asgs_2016.add_csv(code),
-  "nrmr" asgs.nrmr_code REFERENCES asgs_2016.nrmr_csv(code),
+  "nrmr" asgs.nrmr_code REFERENCES asgs_2016.nrmr_csv(code)
 );
 
 CREATE UNLOGGED TABLE asgs_2016.mb_csv
