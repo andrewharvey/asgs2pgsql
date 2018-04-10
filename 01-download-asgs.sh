@@ -22,7 +22,7 @@ function download {
             wget --no-clobber -O "$asgs_dir/127005500${1}_$2" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6"
         fi
     else
-        wget --no-clobber -O "$asgs_dir/127005500${1}_$7" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6" 
+        wget --no-clobber -O "$asgs_dir/127005500${1}_$7" "http://www.abs.gov.au/ausstats/subscriber.nsf/log?openagent&127005500${1}_$2&1270.0.55.00$1&Data%20Cubes&$3&0&$4&$5&$6"
     fi
 }
 
@@ -60,8 +60,6 @@ download 1 "sa3_2011_aust_shape.zip" "AD2BD90E5DC0F4C7CA257801000D59E3" "July 20
 download 1 "sa4_2011_aust_shape.zip" "B18D49356F3FDA5FCA257801000D6D2E" "July 2011" "23.12.2010" "Latest"
 download 1 "gccsa_2011_aust_shape.zip" "E0FC2223AF731E0ACA257801000D7B54" "July 2011" "23.12.2010" "Latest"
 download 1 "ste_2011_aust_shape.zip" "1D26EC44E6ABD911CA257801000D8779" "July 2011" "23.12.2010" "Latest"
-
-
 download 1 "mb_2016_nsw_csv.zip" "1FC672E70A77D52FCA257FED0013A0F7" "July 2016" "12.07.2016" "Latest"
 download 1 "mb_2016_vic_csv.zip" "F1EA82ECA7A762BCCA257FED0013A253" "July 2016" "12.07.2016" "Latest"
 download 1 "mb_2016_qld_csv.zip" "A6A81C7C2CE74FAACA257FED0013A344" "July 2016" "12.07.2016" "Latest"
@@ -107,13 +105,17 @@ download 1 "sa3_2016_aust_tab.zip" "3A0B7CF929A058E6CA257FED001414A5" "July 2016
 download 1 "sa4_2016_aust_tab.zip" "FCE5786166577A93CA257FED00141845" "July 2016" "12.07.2016" "Latest"
 download 1 "gccsa_2016_aust_tab.zip" "6340F157AE0651A5CA257FED00141B97" "July 2016" "12.07.2016" "Latest"
 download 1 "ste_2016_aust_tab.zip" "CB3D68423E11EF14CA257FED00141FAE" "July 2016" "12.07.2016" "Latest"
-download 1 "asgs_ 2016_vol_1_geopackage.zip" "C406A18CE1A6A50ACA257FED00145B1D" "July 2016" "12.07.2016" "Latest"
+download 1 "ASGS_2016_vol_1_geopackage.zip" "C406A18CE1A6A50ACA257FED00145B1D" "July 2016" "12.07.2016" "Latest"
 download cg "mb_2011_mb_2016.zip" "4E9930D30D02872ACA257FED0014BEFE" "July 2016" "12.07.2016" "Latest"
 download cg "sa1_2011_sa1_2016.zip" "7FA4ED413ECF9336CA257FED0014C10D" "July 2016" "12.07.2016" "Latest"
 download cg "sa2_2011_sa2_2016.zip" "C9CFBB94B52B200DCA257FED0014C198" "July 2016" "12.07.2016" "Latest"
 download cg "sa3_2011_sa3_2016.zip" "609E67A0AA06EC32CA257FED0014C1C0" "July 2016" "12.07.2016" "Latest"
 download cg "sa4_2011_sa4_2016.zip" "5221E9CC649099CACA257FED0014C1E9" "July 2016" "12.07.2016" "Latest"
 download cg "gccsa_2011_gccsa_2016.zip" "BB9452B669226FDACA257FED0014C20B" "July 2016" "12.07.2016" "Latest"
+download 1 "aus_2016_aust_shape.zip" "5503B37F8055BFFECA2581640014462C" "July 2016" "24.07.2017" "Latest"
+download 1 "aus_2016_aust_tab.zip" "F18065BF058615F9CA2581640014491B" "July 2016" "24.07.2017" "Latest"
+
+
 
 # ASGS Volume 2
 # ABS Publication: 1270.0.55.002
@@ -124,8 +126,6 @@ download 2 "ireg_2011_aust_csv.zip" "5C951FA2B92BA234CA2579A7001788C3" "July 201
 download 2 "iare_2011_aust_shape.zip" "30B219BC2C1BA5DDCA2579A7001790DC" "July 2011" "20.02.2012" "Latest"
 download 2 "iloc_2011_aust_shape.zip" "6EE37FF7D6F9B0A8CA2579A70017A494" "July 2011" "20.02.2012" "Latest"
 download 2 "ireg_2011_aust_shape.zip" "5C2F21B87633B4B6CA2579A70017B643" "July 2011" "20.02.2012" "Latest"
-
-
 download 2 "indigenous_structure_allocation_2016.zip" "80616E14CFA32B4DCA25802C0013F9EA" "July 2016" "13.09.2016" "Latest"
 download 2 "iloc_2016_aust_csv.zip" "ACA1CDFC0BF96596CA25802C0013FAE6" "July 2016" "13.09.2016" "Latest"
 download 2 "iare_2016_aust_csv.zip" "77E77B329AC89332CA25802C0013FB0A" "July 2016" "13.09.2016" "Latest"
@@ -140,6 +140,8 @@ download 2 "asgs_2016_vol_2_geopackage.zip" "C6632C08F1009635CA25802C00141AF6" "
 download cg "iloc_2011_iloc_2016.zip" "B12ABB87DFF29B37CA25802C001427E1" "July 2016" "13.09.2016" "Latest"
 download cg "iare_2011_iare_2016.zip" "2DB0D7A9B8A06491CA25802C00142805" "July 2016" "13.09.2016" "Latest"
 download cg "ireg_2011_ireg_2016.zip" "43B4694A5117AD38CA25802C00142829" "July 2016" "13.09.2016" "Latest"
+
+
 
 # ASGS Volume 3
 # ABS Publication: 1270.0.55.003
@@ -157,7 +159,7 @@ download 3 "ssc_2011_aust_csv.zip" "414A81A24C3049A8CA2578D40012D50C" "July 2011
 download 3 "ced_2011_aust_csv.zip" "F85EC44BA66E1AF8CA2578D40012D57B" "July 2011" "22.07.2011" "Previous"
 download 3 "sed_2011_aust_csv.zip" "D528608C024844C9CA2578D40012D5E0" "July 2011" "22.07.2011" "Previous"
 download 3 "nrmr_2011_aust_csv.zip" "3980F9D5AF92E81ECA2578D40012D63E" "July 2011" "22.07.2011" "Previous"
-download 3 "add_2011_aust.zip" "AE06FFEB1486E2C5CA2579F30011EADB" "July 2011" "04.05.2012" "Latest" "add_2011_aust_csv.zip"
+download 3 "add_2011_aust.zip" "AE06FFEB1486E2C5CA2579F30011EADB" "July 2011" "04.05.2012" "Latest"
 download 3 "tr_2011_aust_csv.zip" "38C408A89BBA0027CA2578D40012D70A" "July 2011" "22.07.2011" "Previous"
 download 3 "lga_2011_aust_shape.zip" "4A320EE17A293459CA257937000CC967" "July 2011" "31.10.2011" "Previous"
 download 3 "poa_2011_aust_shape.zip" "71B4572D909B934ECA2578D40012FE0D" "July 2011" "22.07.2011" "Previous"
@@ -167,7 +169,32 @@ download 3 "sed_2011_aust_shape.zip" "1F692001AC7E460DCA2578D40013567C" "July 20
 download 3 "nrmr_2011_aust_shape.zip" "6F23BC29F5CA27F8CA2578D40013679F" "July 2011" "22.07.2011" "Previous"
 download 3 "add_2011_aust_shape.zip" "582C067EAE26C41ACA2578D4001375F4" "July 2011" "22.07.2011" "Previous"
 download 3 "tr_2011_aust_shape.zip" "7140033784CE5EAFCA2578D4001383F7" "July 2011" "22.07.2011" "Previous"
-
+download 3 "lga_2013_nsw_csv.zip" "0DCDCC9D7A1483CCCA257BB000115790" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_vic_csv.zip" "431C83067731553ACA257BB000115889" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_qld_csv.zip" "798B7A702795D75ACA257BB0001158E8" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_sa_csv.zip" "A4A271E1AB2F2290CA257BB000115924" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_wa_csv.zip" "522B22ECFC19F878CA257BB00011594C" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_tas_csv.zip" "91361B9F31C38FAACA257BB000115976" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_nt_csv.zip" "DC5FE79287EE47A9CA257BB000115991" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_act_csv.zip" "C735F9D12AFC3616CA257BB0001159AD" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_ot_csv.zip" "0BF6BBF7C36F745ECA257BB0001159CB" "July 2013" "23.07.2013" "Latest"
+download 3 "ced_2013_aust_csv.zip" "CC688918DA139CF6CA257BB0001159F9" "July 2013" "23.07.2013" "Latest"
+download 3 "tr_2013_aust_csv.zip" "24F4C44FA27C12F3CA257BB000115A35" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2013_aust_shape.zip" "D56CC04B78B6E585CA257BB0001162D1" "July 2013" "23.07.2013" "Latest"
+download 3 "ced_2013_aust_shp.zip" "390A0B8BBC1CFC9CCA257BB000117290" "July 2013" "23.07.2013" "Latest"
+download 3 "tr_2013_aust_shape.zip" "CDD92DC573FC0E7DCA257BB00011802B" "July 2013" "23.07.2013" "Latest"
+download 3 "lga_2014_nsw_csv.zip" "232CBF7DD0454102CA257D17001149B5" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_vic_csv.zip" "13187DA29F2DE279CA257D1700114AC6" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_qld_csv.zip" "349C676C46B15DB1CA257D1700114B15" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_sa_csv.zip" "476229B8C9684DB5CA257D1700114B63" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_wa_csv.zip" "8EA8618A3690CDE4CA257D1700114BA2" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_tas_csv.zip" "9D8B4D2804FD94A9CA257D1700114BE5" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_nt_csv.zip" "9D84833334E1F913CA257D1700114C1A" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_act_csv.zip" "B6C8723473EA8F7CCA257D1700114C5A" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_ot_csv.zip" "1C99EF64D49C740ECA257D1700114C87" "July 2014" "17.07.2014" "Latest"
+download 3 "tr_2014_aust_csv.zip" "87CCB762B337A735CA257D1700114CB1" "July 2014" "17.07.2014" "Latest"
+download 3 "lga_2014_aust_shape.zip" "0B5049C71C32D70BCA257D1700115539" "July 2014" "17.07.2014" "Latest"
+download 3 "tr_2014_aust_shape.zip" "458DFB6FAFCF2585CA257D170011890C" "July 2014" "17.07.2014" "Latest"
 download 3 "lga_2015_nsw_csv.zip" "0AF51A7ADF9181A1CA257E8400142CAF" "July 2015" "17.07.2015" "Latest"
 download 3 "lga_2015_vic_csv.zip" "32D2804F747414DECA257E8400142FDB" "July 2015" "17.07.2015" "Latest"
 download 3 "lga_2015_qld_csv.zip" "10828E8DF958AFD4CA257E840014301D" "July 2015" "17.07.2015" "Latest"
@@ -180,7 +207,6 @@ download 3 "lga_2015_ot_csv.zip" "E3157A9E3A2CF23ECA257E8400143355" "July 2015" 
 download 3 "tr_2015_aust_csv.zip" "99F74DD9E63EFE24CA257E840014337D" "July 2015" "17.07.2015" "Latest"
 download 3 "lga_2015_aust_shape.zip" "54F1418AFBEDD91CCA257E8400143B95" "July 2015" "17.07.2015" "Latest"
 download 3 "tr_2015_aust_shape.zip" "26334A5E2F193087CA257E8400144CC4" "July 2015" "17.07.2015" "Latest"
-
 download 3 "lga_2016_nsw_csv.zip" "83179EFA2D8AE0D4CA25802C001429BC" "July 2016" "13.09.2016" "Latest"
 download 3 "lga_2016_vic_csv.zip" "419FC07E76D1FE47CA25802C00142A33" "July 2016" "13.09.2016" "Latest"
 download 3 "lga_2016_qld_csv.zip" "88DB5BA4BCA98A55CA25802C00142A6A" "July 2016" "13.09.2016" "Latest"
@@ -220,6 +246,28 @@ download cg "ssc_2011_ssc_2016.zip" "88C26D6A61CDA38ECA25802C0014C402" "July 201
 download cg "ced_2011_ced_2016.zip" "798C66D2F7552048CA25802C0014C447" "July 2016" "13.09.2016" "Latest"
 download cg "sed_2011_sed_2016.zip" "5C37BAB187F19BB1CA25802C0014C468" "July 2016" "13.09.2016" "Latest"
 download cg "tr_2011_tr_2016.zip" "7CCD1D2A997B4EC3CA25802C0014C485" "July 2016" "13.09.2016" "Latest"
+download 3 "lga_2017_nsw_csv.zip" "3855C4D70AA592D7CA25816B00135935" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_vic_csv.zip" "61200177C333C390CA25816B00135A17" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_qld_csv.zip" "96090EE452468396CA25816B00135A4E" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_sa_csv.zip" "C4093830DC5D91A5CA25816B00135A7E" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_wa_csv.zip" "C18D9FDF553E8EF9CA25816B00135AA5" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_tas_csv.zip" "6A2078BEB18198A5CA25816B00135AD3" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_nt_csv.zip" "FECF9D93D46D65CECA25816B00135B00" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_act_csv.zip" "F4A12D3415D0A859CA25816B00135B27" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_ot_csv.zip" "A95E637EEA2F1ACCCA25816B00135B48" "July 2017" "31.07.2017" "Latest"
+download 3 "ced_2017_aust_csv.zip" "4F2D0E9669562913CA25816B00135B67" "July 2017" "31.07.2017" "Latest"
+download 3 "sed_2017_aust_csv.zip" "D1DCAE542D41B1BFCA25816B00135B9B" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_aust_shp.zip" "F11A76BAD13A9F8FCA25816B00135BCA" "July 2017" "31.07.2017" "Latest"
+download 3 "lga_2017_aust_tab.zip" "20D8856FE323FD67CA25816B00136105" "July 2017" "31.07.2017" "Latest"
+download 3 "asgs_2017_vol_3_aust_gpkg.zip" "C2168B0401ABACF6CA25816B0013684D" "July 2017" "31.07.2017" "Latest"
+download 3 "ced_2017_aust_shp.zip" "9C2197D75933022ACA2581C9001CCF70" "July 2017" "31.10.2017" "Latest"
+download 3 "ced_2017_aust_tab.zip" "0BACA282FF3D9E0CCA2581C9001CD352" "July 2017" "31.10.2017" "Latest"
+download 3 "sed_2017_aust_shp.zip" "A5B699CFA332A427CA2581C9001CD88E" "July 2017" "31.10.2017" "Latest"
+download 3 "sed_2017_aust_tab.zip" "D8E26E87A8436A91CA2581C9001CDC80" "July 2017" "31.10.2017" "Latest"
+download 3 "ced_2017_aust_tb_rcd.zip" "13BB308151F1A52ACA2581C9001CE17C" "July 2017" "31.10.2017" "Latest"
+download 3 "sed_2017_aust_tb_rcd.zip" "DD973E85A88CCD57CA2581C9001CE1AB" "July 2017" "31.10.2017" "Latest"
+download 3 "lga_2017_aust_tb_rcd.zip" "DDD4CEA95664A23BCA2581C9001CE1DA" "July 2017" "31.10.2017" "Latest"
+
 
 # ASGS Volume 4
 # ABS Publication: 1270.0.55.004
@@ -231,12 +279,39 @@ download 4 "sua_2011_aust_shape.zip" "704255912D2C4DC4CA257A9800149AD0" "July 20
 download 4 "ucl_2011_aust_shape.zip" "52B516A3309048CBCA257A980013A96D" "July 2011" "16.10.2012" "Latest"
 download 4 "sosr_2011_aust_shape.zip" "037E310AB1A6E0CDCA257A980013BA66" "July 2011" "16.10.2012" "Latest"
 download 4 "sos_2011_aust_shape.zip" "09598BD74AC10B0CCA257A980013CAD8" "July 2011" "16.10.2012" "Latest"
+download 4 "ucl_2016_aust_csv.zip" "B17E0CCC36197A44CA2581B1000E0914" "July 2016" "09.10.2017" "Latest"
+download 4 "sa1_ucl_sosr_sos_2016_aust_csv.zip" "EE5F4698A91AD2F8CA2581B1000E09B0" "July 2016" "09.10.2017" "Latest"
+download 4 "sua_2016_aust_csv.zip" "06739F6BDEE5A9D0CA2581B1000E0A05" "July 2016" "09.10.2017" "Latest"
+download 4 "sa2_sua_2016_aust_csv.zip" "D6E51168BD6DC248CA2581B1000E0A48" "July 2016" "09.10.2017" "Latest"
+download 4 "ucl_association_2011_2016_csv.zip" "5ED0E10A7F36BCD2CA2581B1000E0A75" "July 2016" "09.10.2017" "Latest"
+download 4 "sua_association_2011_2016_csv.zip" "9208F31D0501E9D3CA2581B1000E0AA3" "July 2016" "09.10.2017" "Latest"
+download 4 "ucl_2016_aust_shape.zip" "F79B919DD05C50DBCA2581B1000E0AD6" "July 2016" "09.10.2017" "Latest"
+download 4 "sosr_2016_aust_shape.zip" "641DAEFCCD62AD38CA2581B1000E0EBB" "July 2016" "09.10.2017" "Latest"
+download 4 "sos_2016_aust_shape.zip" "9CF74264C4173008CA2581B1000E124F" "July 2016" "09.10.2017" "Latest"
+download 4 "sua_2016_aust_shape.zip" "1E24D1FB300696D2CA2581B1000E15A5" "July 2016" "09.10.2017" "Latest"
+download 4 "ucl_2016_aust_tab.zip" "24913652D586467DCA2581B1000E18CF" "July 2016" "09.10.2017" "Latest"
+download 4 "sosr_2016_aust_tab.zip" "AAF87A3FACCCAC51CA2581B1000E1B41" "July 2016" "09.10.2017" "Latest"
+download 4 "sos_2016_aust_tab.zip" "654230E62CA3DB5BCA2581B1000E1DD9" "July 2016" "09.10.2017" "Latest"
+download 4 "sua_2016_aust_tab.zip" "89A747CAB056214ECA2581B1000E20D5" "July 2016" "09.10.2017" "Latest"
+download 4 "asgs_2016_vol4_geopackage.zip" "05219DCA5D2B915CCA2581B1000E2DC4" "July 2016" "09.10.2017" "Latest"
+
+
 
 # ASGS Volume 5
 # ABS Publication: 1270.0.55.005
 download 5 "ra_2011_aust.zip" "2F6D222C94BC11F7CA257B03000D6DDC" "July 2011" "31.01.2013" "Latest"
 download 5 "sa1_2011_ra_2011_aust.zip" "90EDF571EC21BFA0CA257B03000D6E73" "July 2011" "31.01.2013" "Latest"
-download 5 "ra_2001_aust_shape.zip" "C712776994895856CA257B03000D7599" "July 2011" "31.01.2013" "Latest" "ra_2011_aust_shape.zip"
+download 5 "ra_2001_aust_shape.zip" "C712776994895856CA257B03000D7599" "July 2011" "31.01.2013" "Latest"
+download 5 "ra_2016_aust_csv.zip" "F996E7BF2B99079FCA258251000C7F6C" "July 2016" "16.03.2018" "Latest"
+download 5 "ra_2016_aust_shape.zip" "ACAA23F3B41FA7DFCA258251000C8004" "July 2016" "16.03.2018" "Latest"
+download 5 "ra_2016_aust_tab.zip" "383F3804FED563E2CA258251000C8330" "July 2016" "16.03.2018" "Latest"
+download 5 "ra_2016_aust_gpkg.zip" "904192D3B43F6B0ACA258251000C8855" "July 2016" "16.03.2018" "Latest"
+download 5 "cg_ra_2011_ra_2016.zip" "3C8C4EBD8D24418BCA258251000C8BC3" "July 2016" "16.03.2018" "Latest"
+download 5 "cg_loc_2017_ra_2016.zip" "6F58E33D35FBA034CA258251000C8BEA" "July 2016" "16.03.2018" "Latest"
+download 5 "cg_postcode_2017_ra_2016.zip" "14E68CB22C937EBCCA258251000C8C1B" "July 2016" "16.03.2018" "Latest"
+download 5 "ra_2016_aust_pdf.zip" "1578649ABB4C0E89CA258251000C8C40" "July 2016" "16.03.2018" "Latest"
+
+
 
 # ASGS Volume 6
 # ABS Publication: 1270.0.55.006
