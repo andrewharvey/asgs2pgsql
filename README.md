@@ -30,8 +30,9 @@ The ASGS consists of Volumes 1-5.
 * Volume 5 - 1270.0.55.005 consists of the Remoteness Structure ([documentation](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.005July%202011?OpenDocument))
 * Correspondences - 1270.0.55.006 provides correspondences between the older ASGC and the newer ASGS [documentation](http://www.abs.gov.au/AUSSTATS/abs@.nsf/productsbyCatalogue/A08009E6A2BA5ABBCA257A2900197A49?OpenDocument))
 
-The ABS Structures (vol 1, 2, 4, 5) are usually updated for each Census,
-however the Non-ABS Structures (vol 3) will be updated annually.
+The ABS Structures (vol 1, 2, 4, 5) are usually updated for each Census and
+the Non-ABS Structures (vol 3) are updated annually as required (so not all
+volume 3 structures are updated each year)
 
 ### Schema
 #### Codes
