@@ -97,6 +97,9 @@ for my $src_table (@ordered_tables) {
 
   my $shp_file = "$asgs_unzip_dir/127005500${volume}_" . lc ($src_table) . "_shape/" . uc ($src_table) . ".shp";
 
+  if ( !-e $shp_file ) {
+      next;
+  }
   print "ogr2ogr $shp_file...\n";
   # if we haven't already loaded into this table this session overwrite any
   # existing data in the table, otherwise append to it

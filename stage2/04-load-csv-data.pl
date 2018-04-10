@@ -114,7 +114,7 @@ for my $key (@load_keys) {
 
   # open the source csv file for reading
   my $csv = Text::CSV->new();
-  open (my $src_data, '<', "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/".uc (${src_table}).".csv") or die $!;
+  open (my $src_data, '<', "$asgs_unzip_dir/127005500${volume}_".lc (${src_table})."_csv/".uc (${src_table}).".csv") or next;
 
   my $header = $csv->getline($src_data);
   #test src_columns are actually in header
