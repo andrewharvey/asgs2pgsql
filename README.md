@@ -111,7 +111,7 @@ The download parameters are hard configured within `01-download-asgs.sh`. These 
 
     make download
 
-This should download and unzip the ASGS Volume 1-6 files.
+This should download and unzip the ASGS Volume 1-6 files. To save time downloading you might want to tweak `01-download-asgs.sh` to only the files you're interested in.
 
 ## Stage 2: Loading the ASGS data into the database schema
 This stage assumes you have the 02-ASGS-UNZIP directory from stage 1. With this
