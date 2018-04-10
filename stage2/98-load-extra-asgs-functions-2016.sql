@@ -74,3 +74,10 @@ BEGIN
   END CASE;
 END
 $$ LANGUAGE plpgsql;
+
+-- For a given ASGS_2016.SSC name remove the state/region qualifier present on shared names
+CREATE OR REPLACE FUNCTION asgs_2016.remove_ssc_qualifier(name text) RETURNS text AS $$
+BEGIN
+  return regexp_replace(name, E' \\(.*', '');
+END
+$$ LANGUAGE plpgsql;
