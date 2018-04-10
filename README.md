@@ -102,7 +102,7 @@ for details on the environment variables which you can set.
 If you don't already have a database and database user set up, then on Debian you could:
 
     sudo su - postgres
-    createuser --no-createdb --no-createrole --superuser YOUR_DB
+    createuser --no-createdb --no-createrole --superuser YOUR_DB_USER
     createdb --owner=YOUR_DB_USER YOUR_DB
     exit
 
