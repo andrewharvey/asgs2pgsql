@@ -98,3 +98,10 @@ dump :
 	pg_dump --format plain --schema "asgs_2011" --no-owner | pxz > exports/asgs_2011.sql.xz
 	pg_dump --format plain --schema "asgs_2015" --no-owner | pxz > exports/asgs_2015.sql.xz
 	pg_dump --format plain --schema "asgs_2016" --no-owner | pxz > exports/asgs_2016.sql.xz
+
+geojson:
+	./stage4/01-to-geojson.sh
+
+mb_landuse:
+	ogr2ogr -f 'GeoJSON' -progress -sql 'SELECT MB_CAT16 as category FROM MB_2016_AUST' asgs_2016_mb_landuse.geojson 02-ASGS-UNZIP/1270055001_mb_2016_aust_shape/MB_2016_AUST.shp -lco RFC7946=YES -lco COORDINATE_PRECISION=6 -lco WRITE_NAME=YES
+	tippecanoe --name "ASGS 2016 Mesh Block Landuse" --attribution "ABS 2016" --force --read-parallel -o asgs_2016_mb_landuse.mbtiles --coalesce --detect-shared-borders --drop-smallest-as-needed --minimum-zoom=0 --maximum-zoom=20 asgs_2016_mb_landuse.geojson
