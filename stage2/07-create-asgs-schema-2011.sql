@@ -122,92 +122,70 @@ CREATE TABLE asgs_2011.sos AS (
 -- Set primary key constraints
 
 ALTER TABLE asgs_2011.ste
-  ADD CONSTRAINT ste_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT ste_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.ireg
-  ADD CONSTRAINT ireg_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT ireg_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.iare
-  ADD CONSTRAINT iare_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT iare_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.iloc
-  ADD CONSTRAINT iloc_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT iloc_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.gccsa
-  ADD CONSTRAINT gccsa_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT gccsa_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sa4
-  ADD CONSTRAINT sa4_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sa4_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sa3
-  ADD CONSTRAINT sa3_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sa3_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.tr
-  ADD CONSTRAINT tr_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT tr_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sa2
-  ADD CONSTRAINT sa2_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sa2_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.add
-  ADD CONSTRAINT add_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT add_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.ced
-  ADD CONSTRAINT ced_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT ced_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sed
-  ADD CONSTRAINT sed_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sed_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.nrmr
-  ADD CONSTRAINT nrmr_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT nrmr_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.ssc
-  ADD CONSTRAINT ssc_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT ssc_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.poa
-  ADD CONSTRAINT poa_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT poa_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.lga
-  ADD CONSTRAINT lga_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT lga_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sa1
-  ADD CONSTRAINT sa1_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sa1_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.mb
-  ADD CONSTRAINT mb_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT mb_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sua
-  ADD CONSTRAINT sua_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sua_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.ucl
-  ADD CONSTRAINT ucl_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT ucl_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sosr
-  ADD CONSTRAINT sosr_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sosr_pkey PRIMARY KEY (code);
 
 ALTER TABLE asgs_2011.sos
-  ADD CONSTRAINT sos_pkey PRIMARY KEY (code),
-  SET WITH OIDS;
+  ADD CONSTRAINT sos_pkey PRIMARY KEY (code);
 
 
 
