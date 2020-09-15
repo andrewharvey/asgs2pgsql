@@ -104,7 +104,7 @@ for my $src_table (@ordered_tables) {
   # if we haven't already loaded into this table this session overwrite any
   # existing data in the table, otherwise append to it
   my $psql_update_method = "-overwrite";
-  my $ogr_lco = "-lco DIM=2 -lco SPATIAL_INDEX=OFF";
+  my $ogr_lco = "-lco DIM=2 -lco SPATIAL_INDEX=NONE";
   if (exists $ogr_tables_loaded_this_session{$dst_table}) {
     $psql_update_method = "-update -append";
     $ogr_lco = ""; # layer creation options can't be used when appending to an existing table
@@ -114,7 +114,8 @@ for my $src_table (@ordered_tables) {
   # this makes up >99.99% of this scripts execution
   # PG_USE_COPY uses COPY rather than INSERTS which are much faster
   # we don't need a spatial index as we make one later on the final joined table
-  my $ogr_ret = `ogr2ogr --config PG_USE_COPY YES $psql_update_method -nlt MULTIPOLYGON -select "$src_col" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file $ogr_lco`;
+  my $basename = uc ($src_table);
+  my $ogr_ret = `ogr2ogr --config PG_USE_COPY YES $psql_update_method -nlt MULTIPOLYGON -sql "SELECT $src_col FROM $basename" -nln ${dst_table}_ogr $t_srs -f PostgreSQL PG:"active_schema=$schema" $shp_file $ogr_lco`;
   $ogr_tables_loaded_this_session{$dst_table} = "yes";
   die "Problem occured using ogr2ogr to load SHAPE file\n" if ($ogr_ret = undef);
 
